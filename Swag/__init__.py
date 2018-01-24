@@ -1,9 +1,12 @@
-import hashlib, os, flask_migrate, requests, subprocess, random, json
-from flask import Flask, render_template, request, jsonify, redirect
-from flask_pyoidc.flask_pyoidc import OIDCAuthentication
+import os
+import requests
+import subprocess
+
+import flask_migrate
+# from csh_ldap import CSHLDAP
+from flask import Flask, render_template
+# from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils import secure_filename
-from csh_ldap import CSHLDAP
 
 from Swag.ldap import ldap_is_financial
 from Swag.utils import swag_auth
@@ -22,25 +25,37 @@ app.config["GIT_REVISION"] = subprocess.check_output(['git',
                                                       '--short',
                                                       'HEAD']).decode('utf-8').rstrip()
 
-auth = OIDCAuthentication(app,
-                          issuer=app.config["OIDC_ISSUER"],
-                          client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
+# auth = OIDCAuthentication(app,
+#                           issuer=app.config["OIDC_ISSUER"],
+#                           client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
 
 # Database setup
 db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
-# Create CSHLDAP connection
-ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
-               app.config["LDAP_BIND_PW"])
+# Import db models after instantiating db object
+from Swag.models import Swag
 
+# Create CSHLDAP connection
+# ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
+#                app.config["LDAP_BIND_PW"])
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
 
 
-@app.route("/")
-@auth.oidc_auth
-@swag_auth
+@app.route("/", methods=["GET"])
 def home(auth_dict=None):
-    return ldap_is_financial(auth_dict["uid"])
+    db.create_all()
+    # TODO: Get swag items where all items have stock > 0
+    return render_template("index.html", auth_dict=auth_dict)
+
+
+@app.route('/category/<category_id>', methods=['GET'])
+def category(category_id, auth_dict=None):
+    return render_template("category.html", auth_dict=auth_dict, category_id=category_id)
+
+
+@app.route('/item/<item_id>', methods=['GET'])
+def item(item_id, auth_dict=None):
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id)
