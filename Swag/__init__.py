@@ -34,7 +34,7 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db models after instantiating db object
-from Swag.models import Swag
+from Swag.models import Swag, Item, ItemImage
 
 # Create CSHLDAP connection
 # ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
@@ -47,8 +47,9 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 def home(auth_dict=None):
     db.create_all()
+    items = db.Query(Item).all()
     # TODO: Get swag items where all items have stock > 0
-    return render_template("index.html", auth_dict=auth_dict)
+    return render_template("index.html", auth_dict=auth_dict, items=items)
 
 
 @app.route('/category/<category_id>', methods=['GET'])
