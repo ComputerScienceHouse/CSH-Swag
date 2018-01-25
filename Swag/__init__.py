@@ -47,7 +47,7 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 def home(auth_dict=None):
     db.create_all()
-    items = db.Query(Item).all()
+    items = Item.query.all()
     # TODO: Get swag items where all items have stock > 0
     return render_template("index.html", auth_dict=auth_dict, items=items)
 
@@ -59,4 +59,5 @@ def category(category_id, auth_dict=None):
 
 @app.route('/item/<item_id>', methods=['GET'])
 def item(item_id, auth_dict=None):
-    return render_template("item.html", auth_dict=auth_dict, item_id=item_id)
+    item = Item.query.get(item_id)
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item)
