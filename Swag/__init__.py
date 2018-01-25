@@ -7,6 +7,7 @@ import flask_migrate
 from flask import Flask, render_template, jsonify
 # from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 
 from Swag.ldap import ldap_is_financial
 from Swag.utils import swag_auth
@@ -47,7 +48,7 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 def home(auth_dict=None):
     db.create_all()
-    items = Item.query.all()
+    items = Item.query.order_by(func.rand()).limit(12).all()
     # TODO: Get swag items where all items have stock > 0
     return render_template("index.html", auth_dict=auth_dict, items=items)
 

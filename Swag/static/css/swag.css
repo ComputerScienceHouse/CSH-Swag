@@ -1,33 +1,86 @@
+img.card-img-top.index {
+    object-fit: cover;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+}
+
+img.card-img-top.swag {
+    object-fit: cover;
+    overflow: hidden;
+    width: 100%;
+    height: 350px;
+}
+
+img.img-thumbnail.table {
+    object-fit: cover;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+}
+
 .badge-blue {
-  color: #fff;
-  background-color: #007bff;
+    color: #fff;
+    background-color: #007bff;
 }
 
 .badge-blue[href]:hover, .badge-blue[href]:focus {
-  color: #fff;
-  text-decoration: none;
-  background-color: #0062cc;
+    color: #fff;
+    text-decoration: none;
+    background-color: #0062cc;
 }
 
 .badge-black {
-  color: #fff;
-  background-color: #000000;
+    color: #fff;
+    background-color: #000000;
 }
 
 .badge-black[href]:hover, .badge-black[href]:focus {
-  color: #fff;
-  text-decoration: none;
-  background-color: #0f0f0f;
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f0f0f;
 }
 
 .badge-red {
-  color: #fff;
-  background-color: #dc3545;
+    color: #fff;
+    background-color: #dc3545;
 }
 
 .badge-red[href]:hover, .badge-red[href]:focus {
-  color: #fff;
-  text-decoration: none;
-  background-color: #bd2130;
+    color: #fff;
+    text-decoration: none;
+    background-color: #bd2130;
 }
 
+.badge-grey {
+    color: #fff;
+    background-color: #555555;
+}
+
+.badge-grey[href]:hover, .badge-grey[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #444444;
+}
+
+.badge-purple {
+    color: #fff;
+    background-color: #8d2fff;
+}
+
+.badge-purple[href]:hover, .badge-purple[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #7d30ee;
+}
+
+.badge-green {
+    color: #fff;
+    background-color: #39cb4a;
+}
+
+.badge-green[href]:hover, .badge-green[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2fa83d;
+}

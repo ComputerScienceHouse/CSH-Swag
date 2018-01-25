@@ -2,6 +2,14 @@ function color(data) {
     return "<span class='badge badge-" + data.toLowerCase() + "'>" + data + "</span>";
 }
 
+function image(data) {
+    if (data != null) {
+        return "<img class='img-thumbnail table' src='" + data + "'>";
+    } else {
+        return "<img class='img-thumbnail table' src='http://placehold.it/25x25'>";
+    }
+}
+
 
 $(document).ready(function () {
     $('#swag_table').DataTable({
@@ -30,7 +38,7 @@ $(document).ready(function () {
             {"data": "price", "title": "Price"},
             {
                 "data": null,
-                "render": function (data, type, row) {
+                "render": function () {
                     return "";
                 }
             }
@@ -44,7 +52,7 @@ $(document).ready(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        "order": [[1, 'desc']],
+        "order": [[0, 'desc']],
         "ajax": {
             url: "/items",
             type: 'GET'
@@ -60,12 +68,13 @@ $(document).ready(function () {
             dataSrc: 'product.name'
         },
         "columns": [
+            {"data": "product.name", "title": "Image", "visible": false},
+            {"data": "image", "render": image, "title": "Image"},
             {"data": "color", "render": color, "title": "Color"},
             {"data": "stock", "title": "Stock"},
-            {"data": "image", "title": "Image"},
             {
                 "data": null,
-                "render": function (data, type, row) {
+                "render": function () {
                     return "";
                 }
             }
