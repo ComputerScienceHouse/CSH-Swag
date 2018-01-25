@@ -1,0 +1,33 @@
+.badge-blue {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.badge-blue[href]:hover, .badge-blue[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #0062cc;
+}
+
+.badge-black {
+  color: #fff;
+  background-color: #000000;
+}
+
+.badge-black[href]:hover, .badge-black[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #0f0f0f;
+}
+
+.badge-red {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-red[href]:hover, .badge-red[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #bd2130;
+}
+

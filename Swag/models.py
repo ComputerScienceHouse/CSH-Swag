@@ -28,6 +28,17 @@ class Swag(db.Model):
     category = db.Column(db.VARCHAR(45), nullable=False)
     price = db.Column(db.Integer, nullable=False)
 
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'swag_id': self.swag_id,
+            'name': self.name,
+            'description': self.description,
+            'category': self.category,
+            'price': self.price,
+        }
+
 
 class Item(db.Model):
     __tablename__ = "items"
@@ -36,6 +47,16 @@ class Item(db.Model):
     product = db.relationship("Swag", backref=db.backref("swag", uselist=False))
     color = db.Column(db.VARCHAR(45), nullable=False)
     image = db.Column(db.VARCHAR(255), nullable=True)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'item_id': self.item_id,
+            'product': self.product.serialize,
+            'color': self.color,
+            'image': self.image,
+        }
 
 
 class ItemSize(db.Model):

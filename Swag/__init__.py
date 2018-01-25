@@ -4,7 +4,7 @@ import subprocess
 
 import flask_migrate
 # from csh_ldap import CSHLDAP
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 # from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
 
@@ -71,3 +71,15 @@ def financial(auth_dict=None):
     items = Item.query.all()
     item_sizes = ItemSize.query.all()
     return render_template("financial/dashboard.html", auth_dict=auth_dict, items=items)
+
+
+@app.route("/swag", methods=["GET"])
+def swag():
+    swag = Swag.query.all()
+    return jsonify(data=[i.serialize for i in swag])
+
+
+@app.route("/items", methods=["GET"])
+def items():
+    items = Item.query.all()
+    return jsonify(data=[i.serialize for i in items])
