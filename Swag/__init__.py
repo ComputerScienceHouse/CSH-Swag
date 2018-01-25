@@ -34,7 +34,7 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db models after instantiating db object
-from Swag.models import Swag, Item, ItemImage
+from Swag.models import Swag, Item, ItemSize
 
 # Create CSHLDAP connection
 # ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
@@ -60,4 +60,5 @@ def category(category_id, auth_dict=None):
 @app.route('/item/<item_id>', methods=['GET'])
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
-    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item)
+    sizes = ItemSize.query.filter_by(item_id=item_id).order_by("size ASC")
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, sizes=sizes)

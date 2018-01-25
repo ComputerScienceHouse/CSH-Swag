@@ -1,4 +1,23 @@
+import enum
+
 from Swag import db
+
+
+class Category(enum.Enum):
+    Shirts = 1
+    Sweatshirts = 2
+    Glassware = 3
+    Stickers = 4
+    Misc = 5
+
+
+class ShirtSize(enum.Enum):
+    S = 1
+    M = 2
+    L = 3
+    XL = 4
+    XXL = 5
+    XXXL = 6
 
 
 class Swag(db.Model):
@@ -19,10 +38,9 @@ class Item(db.Model):
     image = db.Column(db.VARCHAR(255), nullable=True)
 
 
-class itemSize(db.Model):
+class ItemSize(db.Model):
     __tablename__ = "item_sizes"
     size_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    item_id = db.Column(db.Integer, db.ForeignKey("item.item_id"), nullable=False)
-    item = db.relationship("Item", backref=db.backref("items", useList=False))
-    size = db.Column(db.VARCHAR(5), nullable=False, default='M')
+    item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
+    size = db.Column(db.Enum(ShirtSize), nullable=True)
     stock = db.Column(db.Integer, nullable=False, default=0)
