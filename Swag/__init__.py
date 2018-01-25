@@ -52,9 +52,10 @@ def home(auth_dict=None):
     return render_template("index.html", auth_dict=auth_dict, items=items)
 
 
-@app.route('/category/<category_id>', methods=['GET'])
-def category(category_id, auth_dict=None):
-    return render_template("category.html", auth_dict=auth_dict, category_id=category_id)
+@app.route('/category/<category_name>', methods=['GET'])
+def category(category_name, auth_dict=None):
+    items = Item.query.all()
+    return render_template("category.html", auth_dict=auth_dict, category_name=category_name, items=items)
 
 
 @app.route('/item/<item_id>', methods=['GET'])
@@ -62,3 +63,11 @@ def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     sizes = ItemSize.query.filter_by(item_id=item_id).order_by("size ASC")
     return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, sizes=sizes)
+
+
+@app.route("/financial", methods=["GET"])
+def financial(auth_dict=None):
+    db.create_all()
+    items = Item.query.all()
+    item_sizes = ItemSize.query.all()
+    return render_template("financial/dashboard.html", auth_dict=auth_dict, items=items)

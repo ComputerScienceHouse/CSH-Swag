@@ -42,5 +42,6 @@ class ItemSize(db.Model):
     __tablename__ = "item_sizes"
     size_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
+    item = db.relationship(Item, backref=db.backref("item", uselist=False))
     size = db.Column(db.Enum(ShirtSize), nullable=True)
     stock = db.Column(db.Integer, nullable=False, default=0)
