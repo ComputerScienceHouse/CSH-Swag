@@ -65,12 +65,12 @@ def item(item_id, auth_dict=None):
     return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, sizes=sizes)
 
 
-@app.route("/financial", methods=["GET"])
+@app.route("/manage", methods=["GET"])
 def financial(auth_dict=None):
     db.create_all()
     items = Item.query.all()
     item_sizes = ItemSize.query.all()
-    return render_template("financial/dashboard.html", auth_dict=auth_dict, items=items)
+    return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items)
 
 
 @app.route("/swag", methods=["GET"])

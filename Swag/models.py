@@ -51,11 +51,15 @@ class Item(db.Model):
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
+        item_sizes = ItemSize.query.filter_by(item_id=self.item_id)
+        stock = sum(i.stock for i in item_sizes)
         return {
             'item_id': self.item_id,
             'product': self.product.serialize,
             'color': self.color,
             'image': self.image,
+            'stock': stock,
+            'sizes': [i.serialize for i in item_sizes]
         }
 
 
@@ -66,3 +70,12 @@ class ItemSize(db.Model):
     item = db.relationship(Item, backref=db.backref("item", uselist=False))
     size = db.Column(db.Enum(ShirtSize), nullable=True)
     stock = db.Column(db.Integer, nullable=False, default=0)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'size_id': self.size_id,
+            'size': self.size.name,
+            'stock': self.stock,
+        }

@@ -26,6 +26,7 @@ $(document).ready(function () {
         "columns": [
             {"data": "name", "title": "Product"},
             {"data": "description", "title": "Description"},
+            {"data": "category", "title": "Category"},
             {"data": "price", "title": "Price"},
             {
                 "data": null,
@@ -56,11 +57,11 @@ $(document).ready(function () {
             }
         ],
         rowGroup: {
-            // Group by office
             dataSrc: 'product.name'
         },
         "columns": [
             {"data": "color", "render": color, "title": "Color"},
+            {"data": "stock", "title": "Stock"},
             {"data": "image", "title": "Image"},
             {
                 "data": null,
