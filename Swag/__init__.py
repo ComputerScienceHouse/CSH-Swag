@@ -35,7 +35,7 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db models after instantiating db object
-from Swag.models import Swag, Item, ItemSize
+from Swag.models import Swag, Item, Stock, Receipt
 
 # Create CSHLDAP connection
 # ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
@@ -62,25 +62,28 @@ def category(category_name, auth_dict=None):
 @app.route('/item/<item_id>', methods=['GET'])
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
-    sizes = ItemSize.query.filter_by(item_id=item_id).order_by("size ASC")
-    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, sizes=sizes)
+    stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock)
 
 
 @app.route("/manage", methods=["GET"])
 def financial(auth_dict=None):
     db.create_all()
     items = Item.query.all()
-    item_sizes = ItemSize.query.all()
-    return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items)
+    stock = Stock.query.all()
+    return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock)
 
 
 @app.route("/swag", methods=["GET"])
 def swag():
-    swag = Swag.query.all()
-    return jsonify(data=[i.serialize for i in swag])
+    return jsonify(data=[i.serialize for i in Swag.query.all()])
 
 
 @app.route("/items", methods=["GET"])
 def items():
-    items = Item.query.all()
-    return jsonify(data=[i.serialize for i in items])
+    return jsonify(data=[i.serialize for i in Item.query.all()])
+
+
+@app.route("/receipts", methods=["GET"])
+def receipts():
+    return jsonify(data=[i.serialize for i in Receipt.query.all()])

@@ -19,6 +19,7 @@ $(document).ready(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false,
+        "pageLength": 5,
         "order": [[1, 'desc']],
         "ajax": {
             url: "/swag",
@@ -52,6 +53,7 @@ $(document).ready(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false,
+        "pageLength": 5,
         "order": [[0, 'desc']],
         "ajax": {
             url: "/items",
@@ -72,6 +74,41 @@ $(document).ready(function () {
             {"data": "image", "render": image, "title": "Image"},
             {"data": "color", "render": color, "title": "Color"},
             {"data": "stock", "title": "Stock"},
+            {
+                "data": null,
+                "render": function () {
+                    return "";
+                }
+            }
+        ]
+    });
+
+    $('#receipts_table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "pageLength": 10,
+        "order": [[0, 'desc']],
+        "ajax": {
+            url: "/receipts",
+            type: 'GET'
+        },
+        "columnDefs": [
+            {
+                className: 'control',
+                orderable: false,
+                targets: -1
+            }
+        ],
+        "columns": [
+            {"data": "purchased.item.product.name", "title": "Product"},
+            {"data": "purchased.size", "title": "Size"},
+            {"data": "member_uid", "title": "Member"},
+            {"data": "paid", "title": "Paid?"},
+            {"data": "method", "title": "Method"},
             {
                 "data": null,
                 "render": function () {

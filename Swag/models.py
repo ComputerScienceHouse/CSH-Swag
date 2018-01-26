@@ -11,13 +11,23 @@ class Category(enum.Enum):
     Misc = 5
 
 
-class ShirtSize(enum.Enum):
+class PaymentMethod(enum.Enum):
+    Cash = 1
+    Check = 2
+    Venmo = 3
+    Card = 4
+    Online = 5
+
+
+class SizeOptions(enum.Enum):
     S = 1
     M = 2
     L = 3
     XL = 4
     XXL = 5
     XXXL = 6
+    Toothpick = 15
+    Pint = 16
 
 
 class Swag(db.Model):
@@ -44,38 +54,78 @@ class Item(db.Model):
     __tablename__ = "items"
     item_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     product_id = db.Column(db.Integer, db.ForeignKey("swag.swag_id"), nullable=False)
-    product = db.relationship("Swag", backref=db.backref("swag", uselist=False))
+    product = db.relationship(Swag, backref=db.backref("swag", uselist=False))
     color = db.Column(db.VARCHAR(45), nullable=False)
     image = db.Column(db.VARCHAR(255), nullable=True)
 
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
-        item_sizes = ItemSize.query.filter_by(item_id=self.item_id)
-        stock = sum(i.stock for i in item_sizes)
+        item_stock = Stock.query.filter_by(item_id=self.item_id)
+        stock = sum(i.stock for i in item_stock)
         return {
             'item_id': self.item_id,
             'product': self.product.serialize,
             'color': self.color,
             'image': self.image,
             'stock': stock,
-            'sizes': [i.serialize for i in item_sizes]
+            'sizes': [i.serialize for i in item_stock]
+        }
+
+    @property
+    def serialize_single(self):
+        """Return object data in easily serializeable format"""
+        item_stock = Stock.query.filter_by(item_id=self.item_id)
+        stock = sum(i.stock for i in item_stock)
+        return {
+            'item_id': self.item_id,
+            'product': self.product.serialize,
+            'color': self.color,
+            'image': self.image,
+            'stock': stock,
         }
 
 
-class ItemSize(db.Model):
-    __tablename__ = "item_sizes"
-    size_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+class Stock(db.Model):
+    __tablename__ = "stock"
+    stock_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
     item = db.relationship(Item, backref=db.backref("item", uselist=False))
-    size = db.Column(db.Enum(ShirtSize), nullable=True)
+    size = db.Column(db.Enum(SizeOptions), nullable=True)
     stock = db.Column(db.Integer, nullable=False, default=0)
 
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
-            'size_id': self.size_id,
+            'stock_id': self.stock_id,
             'size': self.size.name,
             'stock': self.stock,
+            'item': self.item.serialize_single,
+        }
+
+
+class Receipt(db.Model):
+    __tablename__ = "receipts"
+    receipt_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    stock_id = db.Column(db.Integer, db.ForeignKey("stock.stock_id"), nullable=False)
+    purchased = db.relationship(Stock, backref=db.backref("Stock", uselist=False))
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    member_uid = db.Column(db.VARCHAR(75), nullable=True)
+    discount_id = db.Column(db.Integer, nullable=True)
+    shipping = db.Column(db.Boolean, nullable=False, default=False)
+    shipping_cost = db.Column(db.Integer, nullable=True)
+    paid = db.Column(db.Boolean, nullable=False, default=False)
+    method = db.Column(db.Enum(PaymentMethod), nullable=True)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'receipt_id': self.receipt_id,
+            'purchased': self.purchased.serialize,
+            'quantity': self.quantity,
+            'member_uid': self.member_uid,
+            'paid': self.paid,
+            'method': self.method.name,
         }
