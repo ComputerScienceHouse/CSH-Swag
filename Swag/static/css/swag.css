@@ -84,3 +84,25 @@ img.img-thumbnail.table {
     text-decoration: none;
     background-color: #2fa83d;
 }
+
+.badge-cash {
+    color: #fff;
+    background-color: #39cb4a;
+}
+
+.badge-cash[href]:hover, .badge-cash[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2fa83d;
+}
+
+.badge-venmo {
+    color: #fff;
+    background-color: #00b6ff;
+}
+
+.badge-venmo[href]:hover, .badge-venmo[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #009bd7;
+}

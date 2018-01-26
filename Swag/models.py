@@ -115,7 +115,6 @@ class Receipt(db.Model):
     discount_id = db.Column(db.Integer, nullable=True)
     shipping = db.Column(db.Boolean, nullable=False, default=False)
     shipping_cost = db.Column(db.Integer, nullable=True)
-    paid = db.Column(db.Boolean, nullable=False, default=False)
     method = db.Column(db.Enum(PaymentMethod), nullable=True)
 
     @property
@@ -126,6 +125,5 @@ class Receipt(db.Model):
             'purchased': self.purchased.serialize,
             'quantity': self.quantity,
             'member_uid': self.member_uid,
-            'paid': self.paid,
             'method': self.method.name,
         }
