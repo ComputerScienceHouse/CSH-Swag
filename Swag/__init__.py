@@ -48,7 +48,7 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 def home(auth_dict=None):
     db.create_all()
-    items = Item.query.order_by(func.rand()).limit(12).all()
+    items = Item.query.order_by(func.rand()).all()
     # TODO: Get swag items where all items have stock > 0
     return render_template("index.html", auth_dict=auth_dict, items=items)
 

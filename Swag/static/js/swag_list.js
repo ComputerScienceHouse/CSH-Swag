@@ -106,7 +106,7 @@ $(document).ready(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        "pageLength": 10,
+        "pageLength": 8,
         "order": [[0, 'desc']],
         "ajax": {
             url: "/receipts",

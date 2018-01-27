@@ -15,7 +15,7 @@
         <div class="col-lg-3">
             <h3 class="my-4">Current Stock</h3>
             <div class="list-group">
-                {% for size in sizes %}
+                {% for size in stock %}
                     {% if size.size != None %}
                         <b class="list-group-item">{{ size.size.name }}: &nbsp;
                             <span class="badge badge-primary">{{ size.stock }}</span>
@@ -36,7 +36,12 @@
                     <h3 class="card-title">{{ item.product.name }}&nbsp;
                         <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
                     </h3>
-                    <h4>${{ item.product.price }}</h4>
+                    <h4>${{ item.product.price }}
+                        {% if item.stock == 0 %}
+                            <span class="badge badge-danger">Sold Out</span>
+                        {% endif %}
+                    </h4>
+
                     <p class="card-text">{{ item.product.description }}</p>
                 </div>
                 <div class="card-footer">

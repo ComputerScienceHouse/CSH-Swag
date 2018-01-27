@@ -1,7 +1,5 @@
 import enum
 
-from sqlalchemy import DateTime
-
 from Swag import db
 
 
@@ -22,14 +20,13 @@ class PaymentMethod(enum.Enum):
 
 
 class SizeOptions(enum.Enum):
+    Standard = 0
     S = 1
     M = 2
     L = 3
     XL = 4
     XXL = 5
     XXXL = 6
-    Toothpick = 15
-    Pint = 16
 
 
 class Swag(db.Model):
@@ -61,16 +58,20 @@ class Item(db.Model):
     image = db.Column(db.VARCHAR(255), nullable=True)
 
     @property
+    def stock(self):
+        item_stock = Stock.query.filter_by(item_id=self.item_id)
+        return sum(i.stock for i in item_stock)
+
+    @property
     def serialize(self):
         """Return object data in easily serializeable format"""
         item_stock = Stock.query.filter_by(item_id=self.item_id)
-        stock = sum(i.stock for i in item_stock)
         return {
             'item_id': self.item_id,
             'product': self.product.serialize,
             'color': self.color,
             'image': self.image,
-            'stock': stock,
+            'stock': self.stock,
             'sizes': [i.serialize for i in item_stock]
         }
 
@@ -125,7 +126,7 @@ class Receipt(db.Model):
         """Return object data in easily serializeable format"""
         return {
             'receipt_id': self.receipt_id,
-            'datetime': self.datetime,
+            'datetime': self.datetime.strftime('%m/%d/%Y'),
             'purchased': self.purchased.serialize,
             'quantity': self.quantity,
             'member_uid': self.member_uid,

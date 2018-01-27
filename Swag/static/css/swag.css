@@ -85,6 +85,17 @@ img.img-thumbnail.table {
     background-color: #2fa83d;
 }
 
+.badge-pink {
+    color: #fff;
+    background-color: #cb42a9;
+}
+
+.badge-pink[href]:hover, .badge-pink[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #ad3b8d;
+}
+
 .badge-cash {
     color: #fff;
     background-color: #39cb4a;
