@@ -76,13 +76,13 @@ img.img-thumbnail.table {
 
 .badge-green {
     color: #fff;
-    background-color: #39cb4a;
+    background-color: #34cb58;
 }
 
 .badge-green[href]:hover, .badge-green[href]:focus {
     color: #fff;
     text-decoration: none;
-    background-color: #2fa83d;
+    background-color: #2eb24e;
 }
 
 .badge-pink {

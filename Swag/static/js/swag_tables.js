@@ -19,7 +19,7 @@ function member(data) {
 }
 
 function method(data) {
-    if (data != null){
+    if (data != null) {
         return "<span class='badge badge-" + data.toLowerCase() + "'>" + data + "&nbsp;<i class='fa fa-check'></i></span>";
     } else {
         return "<i class='fa fa-times' style='color: red'></i>";
@@ -28,7 +28,7 @@ function method(data) {
 
 
 $(document).ready(function () {
-    $('#swag_table').DataTable({
+    var swag_table = $('#swag_table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -46,6 +46,13 @@ $(document).ready(function () {
                 className: 'control',
                 orderable: false,
                 targets: -1
+            },
+            {
+                "targets": 4,
+                orderable: false,
+                width: "47px",
+                data: null,
+                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>'
             }
         ],
         "columns": [
@@ -53,16 +60,11 @@ $(document).ready(function () {
             {"data": "description", "title": "Description"},
             {"data": "category", "title": "Category"},
             {"data": "price", "title": "Price"},
-            {
-                "data": null,
-                "render": function () {
-                    return "";
-                }
-            }
+            {"data": null}
         ]
     });
 
-    $('#items_table').DataTable({
+    var items_table = $('#items_table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -80,6 +82,13 @@ $(document).ready(function () {
                 className: 'control',
                 orderable: false,
                 targets: -1
+            },
+            {
+                "targets": 4,
+                orderable: false,
+                width: "47px",
+                data: null,
+                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>'
             }
         ],
         rowGroup: {
@@ -90,16 +99,11 @@ $(document).ready(function () {
             {"data": "image", "render": image, "title": "Image"},
             {"data": "color", "render": color, "title": "Color"},
             {"data": "stock", "title": "Stock"},
-            {
-                "data": null,
-                "render": function () {
-                    return "";
-                }
-            }
+            {"data": null}
         ]
     });
 
-    $('#receipts_table').DataTable({
+    var receipts_table = $('#receipts_table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -117,6 +121,13 @@ $(document).ready(function () {
                 className: 'control',
                 orderable: false,
                 targets: -1
+            },
+            {
+                "targets": 5,
+                orderable: false,
+                width: "47px",
+                data: null,
+                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>'
             }
         ],
         "columns": [
@@ -124,13 +135,28 @@ $(document).ready(function () {
             {"data": "purchased.item.product.name", "title": "Product"},
             {"data": "purchased.size", "title": "Size"},
             {"data": "member_uid", "render": member, "title": "Member"},
-            {"data": "method", "render": method,"title": "Method"},
-            {
-                "data": null,
-                "render": function () {
-                    return "";
-                }
-            }
+            {"data": "method", "render": method, "title": "Method"},
+            {"data": null}
         ]
+    });
+
+    $('#swag_table tbody').on('click', 'button', function () {
+        var data = swag_table.row($(this).parents('tr')).data();
+        $('#product-name').val(data.name);
+        $('#description-text').val(data.description);
+        $('#category-name').val(data.category);
+        $('#price-value').val(data.price);
+        $('#swagEdit').modal('toggle');
+
+    });
+
+    $('#items_table tbody').on('click', 'button', function () {
+        var data = items_table.row($(this).parents('tr')).data();
+        $('#itemEdit').modal('toggle');
+    });
+
+    $('#receipts_table tbody').on('click', 'button', function () {
+        var data = receipts_table.row($(this).parents('tr')).data();
+        $('#receiptsEdit').modal('toggle');
     });
 });
