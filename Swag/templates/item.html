@@ -29,7 +29,9 @@
         <div class="col-lg-9">
 
             <div class="card mt-4">
-                <img class="card-img-top img-fluid swag" src="{% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/900x400{% endif %}" alt="">
+                <img class="card-img-top img-fluid swag"
+                     src="{% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/900x400{% endif %}"
+                     alt="">
                 <div class="card-body">
                     <h3 class="card-title">{{ item.product.name }}&nbsp;
                         <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
@@ -42,30 +44,16 @@
             </div>
             <!-- /.card -->
 
-            <div class="card card-outline-secondary my-4">
-                <div class="card-header">
-                    Product Reviews
-                </div>
+            <div class="card card-outline-secondary my-3">
                 <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                        similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-                        Sequi mollitia, necessitatibus quae sint natus.</p>
-                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                    <hr>
-                    <a href="#" class="btn btn-success">Leave a Review</a>
+                    <div class="plug-body">
+                        <a href="https://plug.csh.rit.edu" title="Advertisements by CSH: Plug">
+                            <img style="width: 100%" src="https://plug.csh.rit.edu/data"
+                                 alt="Advertisements by CSH: Plug">
+                        </a>
+                    </div>
                 </div>
             </div>
-            <!-- /.card -->
 
         </div>
         <!-- /.col-lg-9 -->

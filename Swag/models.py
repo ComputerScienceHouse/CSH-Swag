@@ -1,5 +1,7 @@
 import enum
 
+from sqlalchemy import DateTime
+
 from Swag import db
 
 
@@ -32,7 +34,7 @@ class SizeOptions(enum.Enum):
 
 class Swag(db.Model):
     __tablename__ = "swag"
-    swag_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    swag_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     name = db.Column(db.VARCHAR(45), nullable=False)
     description = db.Column(db.VARCHAR(255))
     category = db.Column(db.VARCHAR(45), nullable=False)
@@ -52,7 +54,7 @@ class Swag(db.Model):
 
 class Item(db.Model):
     __tablename__ = "items"
-    item_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    item_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     product_id = db.Column(db.Integer, db.ForeignKey("swag.swag_id"), nullable=False)
     product = db.relationship(Swag, backref=db.backref("swag", uselist=False))
     color = db.Column(db.VARCHAR(45), nullable=False)
@@ -88,7 +90,7 @@ class Item(db.Model):
 
 class Stock(db.Model):
     __tablename__ = "stock"
-    stock_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    stock_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
     item = db.relationship(Item, backref=db.backref("item", uselist=False))
     size = db.Column(db.Enum(SizeOptions), nullable=True)
@@ -107,8 +109,9 @@ class Stock(db.Model):
 
 class Receipt(db.Model):
     __tablename__ = "receipts"
-    receipt_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    receipt_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     stock_id = db.Column(db.Integer, db.ForeignKey("stock.stock_id"), nullable=False)
+    datetime = db.Column(db.DateTime, nullable=False)
     purchased = db.relationship(Stock, backref=db.backref("Stock", uselist=False))
     quantity = db.Column(db.Integer, nullable=False, default=1)
     member_uid = db.Column(db.VARCHAR(75), nullable=True)
@@ -122,6 +125,7 @@ class Receipt(db.Model):
         """Return object data in easily serializeable format"""
         return {
             'receipt_id': self.receipt_id,
+            'datetime': self.datetime,
             'purchased': self.purchased.serialize,
             'quantity': self.quantity,
             'member_uid': self.member_uid,
