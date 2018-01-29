@@ -23,6 +23,8 @@
                     {% endif %}
                 {% endfor %}
             </div>
+
+            <h3 class="my-4">Purchase History</h3>
         </div>
         <!-- /.col-lg-3 -->
 
@@ -48,6 +50,21 @@
                 </div>
             </div>
             <!-- /.card -->
+
+            <div class="card card-outline-secondary my-4">
+                <div class="card-header">
+                    Product Reviews
+                </div>
+                <div class="card-body">
+                    {% for review in reviews %}
+                        <p>{{ review.review_text }}</p>
+                        <small>&bigstar;{{ review.review_score }}/5 &nbsp;</small>
+                        <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
+                        <hr>
+                    {% endfor %}
+                    <a href="#" class="btn btn-primary">Leave a Review</a>
+                </div>
+            </div>
 
             <div class="card card-outline-secondary my-3">
                 <div class="card-body">

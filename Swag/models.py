@@ -135,3 +135,15 @@ class Receipt(db.Model):
             'member_uid': self.member_uid,
             'method': self.method.name,
         }
+
+
+class Review(db.Model):
+    __tablename__ = "reviews"
+    review_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
+    datetime = db.Column(db.DateTime, nullable=False)
+    member_uid = db.Column(db.VARCHAR(75), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
+    review_score = db.Column(db.Float)
+    review_text = db.Column(db.Text)
+
+    # item = db.relationship(Item, backref=db.backref("Item", uselist=False))

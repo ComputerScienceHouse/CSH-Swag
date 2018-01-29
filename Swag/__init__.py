@@ -35,7 +35,7 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db models after instantiating db object
-from Swag.models import Swag, Item, Stock, Receipt
+from Swag.models import Swag, Item, Stock, Receipt, Review
 
 # Create CSHLDAP connection
 # ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
@@ -63,7 +63,10 @@ def category(category_name, auth_dict=None):
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
-    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock)
+    reviews = Review.query.filter_by(item_id=item_id)
+    # TODO: Check if user has purchased item before
+
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock, reviews=reviews)
 
 
 @app.route("/manage", methods=["GET"])
