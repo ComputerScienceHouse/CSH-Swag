@@ -84,6 +84,11 @@ def items():
     return jsonify(data=[i.serialize for i in Item.query.all()])
 
 
+@app.route("/stock/<item_id>", methods=["GET"])
+def stock(item_id):
+    return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
+
+
 @app.route("/receipts", methods=["GET"])
 def receipts():
     return jsonify(data=[i.serialize for i in Receipt.query.all()])

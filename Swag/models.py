@@ -53,9 +53,10 @@ class Item(db.Model):
     __tablename__ = "items"
     item_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     product_id = db.Column(db.Integer, db.ForeignKey("swag.swag_id"), nullable=False)
-    product = db.relationship(Swag, backref=db.backref("swag", uselist=False))
     color = db.Column(db.VARCHAR(45), nullable=False)
     image = db.Column(db.VARCHAR(255), nullable=True)
+
+    product = db.relationship(Swag, backref=db.backref("swag", uselist=False))
 
     @property
     def stock(self):
@@ -93,9 +94,10 @@ class Stock(db.Model):
     __tablename__ = "stock"
     stock_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
-    item = db.relationship(Item, backref=db.backref("item", uselist=False))
     size = db.Column(db.Enum(SizeOptions), nullable=True)
     stock = db.Column(db.Integer, nullable=False, default=0)
+
+    item = db.relationship(Item, backref=db.backref("item", uselist=False))
 
     @property
     def serialize(self):
@@ -113,13 +115,13 @@ class Receipt(db.Model):
     receipt_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     stock_id = db.Column(db.Integer, db.ForeignKey("stock.stock_id"), nullable=False)
     datetime = db.Column(db.DateTime, nullable=False)
-    purchased = db.relationship(Stock, backref=db.backref("Stock", uselist=False))
     quantity = db.Column(db.Integer, nullable=False, default=1)
     member_uid = db.Column(db.VARCHAR(75), nullable=True)
     discount_id = db.Column(db.Integer, nullable=True)
-    shipping = db.Column(db.Boolean, nullable=False, default=False)
     shipping_cost = db.Column(db.Integer, nullable=True)
     method = db.Column(db.Enum(PaymentMethod), nullable=True)
+
+    purchased = db.relationship(Stock, backref=db.backref("Stock", uselist=False))
 
     @property
     def serialize(self):
@@ -128,6 +130,7 @@ class Receipt(db.Model):
             'receipt_id': self.receipt_id,
             'datetime': self.datetime.strftime('%m/%d/%Y'),
             'purchased': self.purchased.serialize,
+            'cost': self.quantity * self.purchased.item.product.price,
             'quantity': self.quantity,
             'member_uid': self.member_uid,
             'method': self.method.name,

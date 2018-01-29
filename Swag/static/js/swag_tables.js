@@ -26,6 +26,10 @@ function method(data) {
     }
 }
 
+function cost(data) {
+    return "$" + data;
+}
+
 
 $(document).ready(function () {
     var swag_table = $('#swag_table').DataTable({
@@ -84,11 +88,11 @@ $(document).ready(function () {
                 targets: -1
             },
             {
-                "targets": 4,
+                "targets": 5,
                 orderable: false,
-                width: "47px",
+                width: "75px",
                 data: null,
-                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>'
+                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button><button title="Stock" class="btn btn-secondary"><i class="fa fa-archive"></i></button></div>'
             }
         ],
         rowGroup: {
@@ -96,6 +100,7 @@ $(document).ready(function () {
         },
         "columns": [
             {"data": "product.name", "title": "Image", "visible": false},
+            {"data": "item_id", "visible": false},
             {"data": "image", "render": image, "title": "Image"},
             {"data": "color", "render": color, "title": "Color"},
             {"data": "stock", "title": "Stock"},
@@ -133,7 +138,7 @@ $(document).ready(function () {
         "columns": [
             {"data": "receipt_id", "title": "ID"},
             {"data": "purchased.item.product.name", "title": "Product"},
-            {"data": "purchased.size", "title": "Size"},
+            {"data": "cost", "title": "Cost", "render": cost},
             {"data": "member_uid", "render": member, "title": "Member"},
             {"data": "method", "render": method, "title": "Method"},
             {"data": null}
@@ -152,7 +157,41 @@ $(document).ready(function () {
 
     $('#items_table tbody').on('click', 'button', function () {
         var data = items_table.row($(this).parents('tr')).data();
-        $('#itemEdit').modal('toggle');
+        if ($(this).attr('title') === "Edit") {
+            // Fill fields
+            $('#color-text').val(data.color);
+            $('#image-url').val(data.image);
+
+            // Show Modal
+            $('#itemEdit').modal('toggle');
+        } else if ($(this).attr('title') === "Stock") {
+            function template(size, value) {
+                return "<div id='size-" + size + "' class='form-group'>\n" +
+                    "<label for='size-" + size + "-stock' class='col-form-label'>" + size + ":</label>\n" +
+                    "<input type='text' value='" + value + "' class='form-control' id='size-" + size + "-stock'>\n" +
+                    "</div>";
+            }
+
+            $.ajax({
+                url: "/stock/" + data.item_id,
+                success: function (data) {
+                    $('#sizes').empty();
+
+                    // Append Sizes for Stock
+                    var stock_items = data['data'];
+                    for (var index = 0; index < stock_items.length; ++index) {
+                        $('#sizes').append($.parseHTML(template(stock_items[index].size, stock_items[index].stock)));
+                    }
+
+                    // Show Modal
+                    $('#itemStock').modal('toggle');
+                },
+                error: function (data) {
+
+                }
+
+            });
+        }
     });
 
     $('#receipts_table tbody').on('click', 'button', function () {
