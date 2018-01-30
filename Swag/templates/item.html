@@ -62,7 +62,7 @@
                         <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
                         <hr>
                     {% endfor %}
-                    <a href="#" class="btn btn-primary">Leave a Review</a>
+                    <button id="leaveReview" class="btn btn-primary">Leave a Review</button>
                 </div>
             </div>
 
@@ -87,7 +87,11 @@
 
 {% include "include/footer.html" %}
 
+{% include "include/modals/review.html" %}
+
 {% include "include/scripts.html" %}
+
+<script type="text/javascript" src="/static/js/review.js"></script>
 
 </body>
 
