@@ -4,7 +4,7 @@ import subprocess
 
 import flask_migrate
 # from csh_ldap import CSHLDAP
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 # from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
@@ -80,6 +80,12 @@ def financial(auth_dict=None):
 @app.route("/swag", methods=["GET"])
 def swag():
     return jsonify(data=[i.serialize for i in Swag.query.all()])
+
+
+@app.route("/update/swag", methods=["POST"])
+def update_swag():
+    data = request.form
+    return jsonify(data)
 
 
 @app.route("/items", methods=["GET"])
