@@ -4,8 +4,8 @@ import subprocess
 
 import flask_migrate
 # from csh_ldap import CSHLDAP
-from flask import Flask, render_template, jsonify, request
-# from flask_pyoidc.flask_pyoidc import OIDCAuthentication
+from flask import Flask, render_template, jsonify, request, redirect
+from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 
@@ -26,9 +26,8 @@ app.config["GIT_REVISION"] = subprocess.check_output(['git',
                                                       '--short',
                                                       'HEAD']).decode('utf-8').rstrip()
 
-# auth = OIDCAuthentication(app,
-#                           issuer=app.config["OIDC_ISSUER"],
-#                           client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
+auth = OIDCAuthentication(app, issuer=app.config["OIDC_ISSUER"],
+                          client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
 
 # Database setup
 db = SQLAlchemy(app)
@@ -46,6 +45,7 @@ requests.packages.urllib3.disable_warnings()
 
 
 @app.route("/", methods=["GET"])
+@auth.oidc_auth
 def home(auth_dict=None):
     db.create_all()
     items = Item.query.all()
@@ -53,13 +53,21 @@ def home(auth_dict=None):
     return render_template("index.html", auth_dict=auth_dict, items=items)
 
 
+@app.route("/logout")
+@auth.oidc_logout
+def logout():
+    return redirect("/", 302)
+
+
 @app.route('/category/<category_name>', methods=['GET'])
+@auth.oidc_auth
 def category(category_name, auth_dict=None):
     items = Item.query.all()
     return render_template("category.html", auth_dict=auth_dict, category_name=category_name, items=items)
 
 
 @app.route('/item/<item_id>', methods=['GET'])
+@auth.oidc_auth
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
@@ -70,6 +78,7 @@ def item(item_id, auth_dict=None):
 
 
 @app.route("/manage", methods=["GET"])
+@auth.oidc_auth
 def financial(auth_dict=None):
     db.create_all()
     items = Item.query.all()
