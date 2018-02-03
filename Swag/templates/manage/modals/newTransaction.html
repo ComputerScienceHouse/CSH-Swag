@@ -1,4 +1,4 @@
-<div class="modal fade" id="itemEdit" tabindex="-1" role="dialog" aria-labelledby="itemEditLabel" aria-hidden="true">
+<div class="modal fade" id="newTransaction" tabindex="-1" role="dialog" aria-labelledby="newTransactionLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,24 +8,28 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <input title="Item ID" hidden type="text" class="form-control" id="item-id">
+                    <input title="Product ID" hidden type="text" class="form-control" id="product-id">
                     <div class="form-group">
                         <label for="product-name" class="col-form-label">Product:</label>
                         <input type="text" class="form-control" id="product-name">
                     </div>
                     <div class="form-group">
-                        <label for="color-text" class="col-form-label">Color:</label>
-                        <input type="text" class="form-control" id="color-text">
+                        <label for="description-text" class="col-form-label">Description:</label>
+                        <textarea class="form-control" id="description-text"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="image-url" class="col-form-label">Image:</label>
-                        <input type="url" class="form-control" id="image-url">
+                        <label for="category-name" class="col-form-label">Category:</label>
+                        <input type="text" class="form-control" id="category-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="price-value" class="col-form-label">Price:</label>
+                        <input type="number" class="form-control" id="price-value">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <div class="btn-group pull-right" role="group">
-                    <button id="updateItem" type="button" class="btn btn-primary">Update Item</button>
+                    <button id="addNewTransaction" type="button" class="btn btn-primary">Add Transaction</button>
                 </div>
             </div>
         </div>

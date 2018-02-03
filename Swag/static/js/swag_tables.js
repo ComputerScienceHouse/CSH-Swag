@@ -147,6 +147,7 @@ $(document).ready(function () {
 
     $('#swag_table tbody').on('click', 'button', function () {
         var data = swag_table.row($(this).parents('tr')).data();
+        $('#product-id').val(data.swag_id);
         $('#product-name').val(data.name);
         $('#description-text').val(data.description);
         $('#category-name').val(data.category);

@@ -48,7 +48,7 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 def home(auth_dict=None):
     db.create_all()
-    items = Item.query.order_by(func.rand()).all()
+    items = Item.query.all()
     # TODO: Get swag items where all items have stock > 0
     return render_template("index.html", auth_dict=auth_dict, items=items)
 
@@ -84,6 +84,28 @@ def swag():
 
 @app.route("/update/swag", methods=["POST"])
 def update_swag():
+    data = request.form
+    swag = Swag.query.get(data['product-id'])
+    swag.name = data['product-name']
+    swag.description = data['description-text']
+    swag.price = data['price-value']
+    swag.category = data['category-name']
+    db.session.commit()
+    return jsonify(swag.serialize)
+
+
+@app.route("/update/item", methods=["POST"])
+def update_item():
+    data = request.form
+    item = Item.query.get(data['item-id'])
+    item.color = data['color-text']
+    item.image = data['image-url']
+    db.session.commit()
+    return jsonify(data)
+
+
+@app.route("/new/transaction", methods=["PUT"])
+def new_transaction():
     data = request.form
     return jsonify(data)
 
