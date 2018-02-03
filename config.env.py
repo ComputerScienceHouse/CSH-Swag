@@ -15,6 +15,9 @@ SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///{
 #DB_NAME = os.environ.get('SWAG_DB_NAME', 'swag')
 #DB_PASSWORD = os.environ.get('SWAG_DB_PASSWORD', '')
 
+# Openshift secret
+SECRET_KEY = os.getenv("SECRET_KEY", default=''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(64)))
+
 # OpenID Connect SSO config
 OIDC_ISSUER = os.environ.get('SWAG_OIDC_ISSUER', 'https://sso.csh.rit.edu/auth/realms/csh')
 OIDC_CLIENT_CONFIG = {
