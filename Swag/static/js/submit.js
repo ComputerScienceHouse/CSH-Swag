@@ -19,6 +19,8 @@ $('#updateItem').click(function () {
     $.ajax({
         url: "/update/item",
         data: {
+            "item-id": $('#item-id').val(),
+            "product-id": $('#item-product-id').val(),
             "color-text": $('#color-text').val(),
             "image-url": $('#image-url').val()
         },

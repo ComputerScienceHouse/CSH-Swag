@@ -63,7 +63,7 @@ $(document).ready(function () {
             {"data": "name", "title": "Product"},
             {"data": "description", "title": "Description"},
             {"data": "category", "title": "Category"},
-            {"data": "price", "title": "Price"},
+            {"data": "price", "render": cost, "title": "Price"},
             {"data": null}
         ]
     });
@@ -162,6 +162,7 @@ $(document).ready(function () {
             // Fill fields
             $('#color-text').val(data.color);
             $('#image-url').val(data.image);
+            $('#item-product-id').val(data.product.swag_id);
 
             // Show Modal
             $('#itemEdit').modal('toggle');

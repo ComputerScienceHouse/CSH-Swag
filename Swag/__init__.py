@@ -99,6 +99,7 @@ def update_item():
     data = request.form
     item = Item.query.get(data['item-id'])
     item.color = data['color-text']
+    item.product_id = data['product-id']
     item.image = data['image-url']
     db.session.commit()
     return jsonify(data)
