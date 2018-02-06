@@ -24,7 +24,16 @@
                 {% endfor %}
             </div>
 
-            <h3 class="my-4">Purchase History</h3>
+            {% if receipts|length != 0 %}
+                <h3 class="my-4">Purchase History</h3>
+            {% endif %}
+            {% for purchase in receipts %}
+                {% if purchase != None %}
+                    <b class="list-group-item">{{ purchase.datetime.strftime('%Y-%m-%d') }}: &nbsp;
+                        <span class="badge badge-primary">{{ purchase.purchased.size.name }}</span>
+                    </b>
+                {% endif %}
+            {% endfor %}
         </div>
         <!-- /.col-lg-3 -->
 
@@ -62,7 +71,9 @@
                         <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
                         <hr>
                     {% endfor %}
-                    <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview" class="btn btn-primary">Leave a Review</button>
+                    <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview" class="btn btn-primary">
+                        Leave a Review
+                    </button>
                 </div>
             </div>
 
