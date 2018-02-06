@@ -71,9 +71,14 @@ def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
     reviews = Review.query.filter_by(item_id=item_id)
-    # TODO: Check if user has purchased item before
 
-    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock, reviews=reviews)
+    # Check if the item has ever been purchased by that user
+    receipts = [Receipt.query.filter_by(member_uid=auth_dict['uid'], stock_id=stock_item.stock_id).first() for
+                stock_item in stock]
+    receipts = list(filter(None.__ne__, receipts))
+
+    return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock, reviews=reviews,
+                           receipts=receipts)
 
 
 @app.route("/manage", methods=["GET"])
