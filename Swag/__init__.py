@@ -3,7 +3,7 @@ import requests
 import subprocess
 
 import flask_migrate
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify, request, redirect, send_from_directory
 from flask_optimize import FlaskOptimize
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
@@ -40,6 +40,12 @@ from Swag.models import Swag, Item, Stock, Receipt, Review
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route("/", methods=["GET"])
