@@ -74,22 +74,29 @@ def item(item_id, auth_dict=None):
 
 @app.route("/manage", methods=["GET"])
 @auth.oidc_auth
+@swag_auth
 def financial(auth_dict=None):
     db.create_all()
     items = Item.query.all()
     stock = Stock.query.all()
-    return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock)
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock)
 
 
 @app.route("/swag", methods=["GET"])
 @auth.oidc_auth
-def swag():
-    return jsonify(data=[i.serialize for i in Swag.query.all()])
+@swag_auth
+def swag(auth_dict=None):
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data=[i.serialize for i in Swag.query.all()])
 
 
 @app.route("/update/swag", methods=["POST"])
 @auth.oidc_auth
-def update_swag():
+@swag_auth
+def update_swag(auth_dict=None):
     data = request.form
     swag = Swag.query.get(data['product-id'])
     swag.name = data['product-name']
@@ -97,41 +104,58 @@ def update_swag():
     swag.price = data['price-value']
     swag.category = data['category-name']
     db.session.commit()
-    return jsonify(swag.serialize)
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(swag.serialize)
 
 
 @app.route("/update/item", methods=["POST"])
 @auth.oidc_auth
-def update_item():
+@swag_auth
+def update_item(auth_dict=None):
     data = request.form
     item = Item.query.get(data['item-id'])
     item.color = data['color-text']
     item.product_id = data['product-id']
     item.image = data['image-url']
     db.session.commit()
-    return jsonify(data)
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data)
 
 
 @app.route("/new/transaction", methods=["PUT"])
 @auth.oidc_auth
-def new_transaction():
+@swag_auth
+def new_transaction(auth_dict=None):
     data = request.form
-    return jsonify(data)
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data)
 
 
 @app.route("/items", methods=["GET"])
 @auth.oidc_auth
-def items():
-    return jsonify(data=[i.serialize for i in Item.query.all()])
+@swag_auth
+def items(auth_dict=None):
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data=[i.serialize for i in Item.query.all()])
 
 
 @app.route("/stock/<item_id>", methods=["GET"])
 @auth.oidc_auth
-def stock(item_id):
-    return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
+@swag_auth
+def stock(item_id, auth_dict=None):
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
 
 
 @app.route("/receipts", methods=["GET"])
 @auth.oidc_auth
-def receipts():
-    return jsonify(data=[i.serialize for i in Receipt.query.all()])
+@swag_auth
+def receipts(auth_dict=None):
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        return jsonify(data=[i.serialize for i in Receipt.query.all()])
