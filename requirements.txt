@@ -5,4 +5,5 @@ flask
 flask_sqlalchemy
 flask_migrate
 flask-pyoidc
+flask-optimize
 PyMySQL

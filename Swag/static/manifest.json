@@ -1,0 +1,12 @@
+{
+    "background_color": "#FFF",
+    "description": "CSH's Swag Store",
+    "dir": "auto",
+    "display": "minimal-ui",
+    "lang": "en",
+    "name": "CSH-Swag",
+    "orientation": "any",
+    "short_name": "CSH-Swag",
+    "start_url": "/",
+    "theme_color": "#222"
+}

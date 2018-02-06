@@ -47,13 +47,14 @@
                     {% if item.stock > 0 %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
-                                <a href="/item/{{ item.item_id }}"><img class="card-img-top index" src="
-
-                                        {% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/700x400{% endif %}"
-                                                                        alt=""></a>
+                                <a title="{{ item.product.name }}" href="/item/{{ item.item_id }}">
+                                    <img class="card-img-top index" src="
+                                            {% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/700x400{% endif %}"
+                                         alt="{{ item.product.name }}">
+                                </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="/item/{{ item.item_id }}">{{ item.product.name }}</a>
+                                        <a title="{{ item.product.name }}" href="/item/{{ item.item_id }}">{{ item.product.name }}</a>
                                         <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
                                     </h4>
                                     <h5>${{ item.product.price }}</h5>

@@ -4,6 +4,7 @@ import subprocess
 
 import flask_migrate
 from flask import Flask, render_template, jsonify, request, redirect
+from flask_optimize import FlaskOptimize
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
@@ -13,6 +14,8 @@ from Swag.utils import swag_auth
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+flask_optimize = FlaskOptimize()
 
 # Get app config from absolute file path
 if os.path.exists(os.path.join(os.getcwd(), "config.py")):
@@ -42,6 +45,7 @@ requests.packages.urllib3.disable_warnings()
 @app.route("/", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize()
 def home(auth_dict=None):
     db.create_all()
     items = Item.query.all()
@@ -59,6 +63,7 @@ def logout():
 @app.route('/category/<category_name>', methods=['GET'])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize()
 def category(category_name, auth_dict=None):
     items = Item.query.all()
     return render_template("category.html", auth_dict=auth_dict, category_name=category_name, items=items)
@@ -67,6 +72,7 @@ def category(category_name, auth_dict=None):
 @app.route('/item/<item_id>', methods=['GET'])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize()
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
@@ -84,6 +90,7 @@ def item(item_id, auth_dict=None):
 @app.route("/manage", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize()
 def financial(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -98,6 +105,7 @@ def financial(auth_dict=None):
 @app.route("/swag", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def swag(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -109,6 +117,7 @@ def swag(auth_dict=None):
 @app.route("/update/swag", methods=["POST"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def update_swag(auth_dict=None):
     data = request.form
     swag = Swag.query.get(data['product-id'])
@@ -127,6 +136,7 @@ def update_swag(auth_dict=None):
 @app.route("/update/item", methods=["POST"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def update_item(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -144,6 +154,7 @@ def update_item(auth_dict=None):
 @app.route("/new/transaction", methods=["PUT"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def new_transaction(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -156,6 +167,7 @@ def new_transaction(auth_dict=None):
 @app.route("/items", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def items(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -167,6 +179,7 @@ def items(auth_dict=None):
 @app.route("/stock/<item_id>", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def stock(item_id, auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
@@ -178,6 +191,7 @@ def stock(item_id, auth_dict=None):
 @app.route("/receipts", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
+@flask_optimize.optimize('json')
 def receipts(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
