@@ -41,6 +41,7 @@ requests.packages.urllib3.disable_warnings()
 
 @app.route("/", methods=["GET"])
 @auth.oidc_auth
+@swag_auth
 def home(auth_dict=None):
     db.create_all()
     items = Item.query.all()
@@ -50,12 +51,14 @@ def home(auth_dict=None):
 
 @app.route("/logout")
 @auth.oidc_logout
+@swag_auth
 def logout():
     return redirect("/", 302)
 
 
 @app.route('/category/<category_name>', methods=['GET'])
 @auth.oidc_auth
+@swag_auth
 def category(category_name, auth_dict=None):
     items = Item.query.all()
     return render_template("category.html", auth_dict=auth_dict, category_name=category_name, items=items)
@@ -63,6 +66,7 @@ def category(category_name, auth_dict=None):
 
 @app.route('/item/<item_id>', methods=['GET'])
 @auth.oidc_auth
+@swag_auth
 def item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
     stock = Stock.query.filter_by(item_id=item_id).order_by("size ASC")
@@ -76,12 +80,14 @@ def item(item_id, auth_dict=None):
 @auth.oidc_auth
 @swag_auth
 def financial(auth_dict=None):
-    db.create_all()
-    items = Item.query.all()
-    stock = Stock.query.all()
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
+        db.create_all()
+        items = Item.query.all()
+        stock = Stock.query.all()
         return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock)
+    else:
+        return 403
 
 
 @app.route("/swag", methods=["GET"])
@@ -91,6 +97,8 @@ def swag(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         return jsonify(data=[i.serialize for i in Swag.query.all()])
+    else:
+        return 403
 
 
 @app.route("/update/swag", methods=["POST"])
@@ -107,31 +115,37 @@ def update_swag(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         return jsonify(swag.serialize)
+    else:
+        return 403
 
 
 @app.route("/update/item", methods=["POST"])
 @auth.oidc_auth
 @swag_auth
 def update_item(auth_dict=None):
-    data = request.form
-    item = Item.query.get(data['item-id'])
-    item.color = data['color-text']
-    item.product_id = data['product-id']
-    item.image = data['image-url']
-    db.session.commit()
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
+        data = request.form
+        item = Item.query.get(data['item-id'])
+        item.color = data['color-text']
+        item.product_id = data['product-id']
+        item.image = data['image-url']
+        db.session.commit()
         return jsonify(data)
+    else:
+        return 403
 
 
 @app.route("/new/transaction", methods=["PUT"])
 @auth.oidc_auth
 @swag_auth
 def new_transaction(auth_dict=None):
-    data = request.form
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
+        data = request.form
         return jsonify(data)
+    else:
+        return 403
 
 
 @app.route("/items", methods=["GET"])
@@ -141,6 +155,8 @@ def items(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         return jsonify(data=[i.serialize for i in Item.query.all()])
+    else:
+        return 403
 
 
 @app.route("/stock/<item_id>", methods=["GET"])
@@ -150,6 +166,8 @@ def stock(item_id, auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
+    else:
+        return 403
 
 
 @app.route("/receipts", methods=["GET"])
@@ -159,3 +177,5 @@ def receipts(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
+    else:
+        return 403
