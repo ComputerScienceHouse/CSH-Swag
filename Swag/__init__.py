@@ -125,15 +125,15 @@ def swag(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def update_swag(auth_dict=None):
-    data = request.form
-    swag = Swag.query.get(data['product-id'])
-    swag.name = data['product-name']
-    swag.description = data['description-text']
-    swag.price = data['price-value']
-    swag.category = data['category-name']
-    db.session.commit()
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
+        data = request.form
+        swag = Swag.query.get(data['product-id'])
+        swag.name = data['product-name']
+        swag.description = data['description-text']
+        swag.price = data['price-value']
+        swag.category = data['category-name']
+        db.session.commit()
         return jsonify(swag.serialize)
     else:
         return 403
@@ -151,6 +151,24 @@ def update_item(auth_dict=None):
         item.color = data['color-text']
         item.product_id = data['product-id']
         item.image = data['image-url']
+        db.session.commit()
+        return jsonify(data)
+    else:
+        return 403
+
+
+@app.route("/update/stock", methods=["POST"])
+@auth.oidc_auth
+@swag_auth
+@flask_optimize.optimize('json')
+def update_stock(auth_dict=None):
+    # TODO: Check to make sure financial
+    if auth_dict["uid"] == "matted":
+        data = request.form
+        for value in data:
+            stock = Stock.query.get(value)
+            if stock is not None:
+                stock.stock = data.get(value)
         db.session.commit()
         return jsonify(data)
     else:

@@ -1,5 +1,4 @@
 $('#updateSwag').click(function () {
-    console.log("Button Pressed");
     $.ajax({
         url: "/update/swag",
         data: {
@@ -15,7 +14,6 @@ $('#updateSwag').click(function () {
 });
 
 $('#updateItem').click(function () {
-    console.log("Button Pressed");
     $.ajax({
         url: "/update/item",
         data: {
@@ -27,4 +25,19 @@ $('#updateItem').click(function () {
         method: "POST"
     });
     $('#itemEdit').modal('toggle');
+});
+
+$('#updateStock').click(function () {
+    var returnData = {};
+    $('#sizes').children().children('input').each(function () {
+        returnData[$(this).attr('id')] = $(this).val();
+    });
+
+    $.ajax({
+        url: "/update/stock",
+        dataType: 'json',
+        data: returnData,
+        method: "POST"
+    });
+    $('#itemStock').modal('toggle');
 });

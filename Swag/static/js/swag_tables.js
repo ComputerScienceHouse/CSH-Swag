@@ -167,10 +167,10 @@ $(document).ready(function () {
             // Show Modal
             $('#itemEdit').modal('toggle');
         } else if ($(this).attr('title') === "Stock") {
-            function template(size, value) {
+            function template(size, value, stock_id) {
                 return "<div id='size-" + size + "' class='form-group'>\n" +
                     "<label for='size-" + size + "-stock' class='col-form-label'>" + size + ":</label>\n" +
-                    "<input type='text' value='" + value + "' class='form-control' id='size-" + size + "-stock'>\n" +
+                    "<input type='text' value='" + value + "' class='form-control' id='" + stock_id + "'>\n" +
                     "</div>";
             }
 
@@ -182,7 +182,7 @@ $(document).ready(function () {
                     // Append Sizes for Stock
                     var stock_items = data['data'];
                     for (var index = 0; index < stock_items.length; ++index) {
-                        $('#sizes').append($.parseHTML(template(stock_items[index].size, stock_items[index].stock)));
+                        $('#sizes').append($.parseHTML(template(stock_items[index].size, stock_items[index].stock, stock_items[index].stock_id)));
                     }
 
                     // Show Modal
