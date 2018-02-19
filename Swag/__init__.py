@@ -101,9 +101,12 @@ def financial(auth_dict=None):
     # TODO: Check to make sure financial
     if auth_dict["uid"] == "matted":
         db.create_all()
+        venmo = 0
         items = Item.query.all()
         stock = Stock.query.all()
-        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock)
+        for i in Receipt.query.filter_by(method="Venmo"):
+            venmo += i.purchased.item.product.price * i.quantity
+        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo)
     else:
         return 403
 

@@ -30,8 +30,16 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+         <div class="col-lg-6">
             <div class="card mt-3 mb-3">
+                <div class="card-header">
+                    <h4>Venmo Balance</h4>
+                </div>
+                <div class="card-body">
+                    <h3>${{ venmo }}</h3>
+                </div>
+            </div>
+             <div class="card mt-3 mb-3">
                 <div class="card-header">
                     <h4>Receipts</h4>
                 </div>
@@ -52,8 +60,6 @@
 {% include "include/scripts.html" %}
 
 <script src="{{ url_for('static', filename='js/swag_tables.js') }}"></script>
-<script src="{{ url_for('static', filename='js/submit.js') }}"></script>
-
 
 </body>
 
