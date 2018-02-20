@@ -1,4 +1,5 @@
-<div class="modal fade" id="newTransaction" tabindex="-1" role="dialog" aria-labelledby="newTransactionLabel" aria-hidden="true">
+<div class="modal fade" id="newTransaction" tabindex="-1" role="dialog" aria-labelledby="newTransactionLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,22 +9,25 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <input title="Product ID" hidden type="text" class="form-control" id="product-id">
                     <div class="form-group">
-                        <label for="product-name" class="col-form-label">Product:</label>
-                        <input type="text" class="form-control" id="product-name">
+                        <label for="item-id" class="col-form-label">Stock ID (manual):</label>
+                        <input type="number" class="form-control" id="item-id">
                     </div>
                     <div class="form-group">
-                        <label for="description-text" class="col-form-label">Description:</label>
-                        <textarea class="form-control" id="description-text"></textarea>
+                        <label for="receipt-member" class="col-form-label">Member:</label>
+                        <input type="text" class="form-control" id="receipt-member">
                     </div>
                     <div class="form-group">
-                        <label for="category-name" class="col-form-label">Category:</label>
-                        <input type="text" class="form-control" id="category-name">
+                        <label for="item-quantity" class="col-form-label">Quantity:</label>
+                        <input type="number" class="form-control" id="item-quantity">
                     </div>
                     <div class="form-group">
-                        <label for="price-value" class="col-form-label">Price:</label>
-                        <input type="number" class="form-control" id="price-value">
+                        <label for="payment-method" class="col-form-label">Quantity:</label>
+                        <select class="js-example-basic-single" id="payment-method" name="payment-method">
+                            <option value="Venmo">Venmo</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Check">Check</option>
+                        </select>
                     </div>
                 </form>
             </div>

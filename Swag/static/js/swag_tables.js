@@ -32,6 +32,8 @@ function cost(data) {
 
 
 $(document).ready(function () {
+    $('.js-example-basic-single').select2();
+
     var swag_table = $('#swag_table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -246,5 +248,20 @@ $(document).ready(function () {
         });
         items_table.ajax.reload();
         $('#itemStock').modal('toggle');
+    });
+
+    $('#createTransaction').click(function () {
+        $('#newTransaction').modal('toggle');
+    });
+
+    $('#addNewTransaction').click(function () {
+        $.ajax({
+            url: "/new/transaction",
+            dataType: 'json',
+            data: "test",
+            method: "PUT"
+        });
+        receipts_table.ajax.reload();
+        $('#newTransaction').modal('toggle');
     });
 });
