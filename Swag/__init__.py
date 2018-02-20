@@ -191,6 +191,15 @@ def new_transaction(auth_dict=None):
         return 403
 
 
+@app.route("/new/review", methods=["PUT"])
+@auth.oidc_auth
+@swag_auth
+@flask_optimize.optimize('json')
+def new_review(auth_dict=None):
+    data = request.form
+    return jsonify(data)
+
+
 @app.route("/items", methods=["GET"])
 @auth.oidc_auth
 @swag_auth
