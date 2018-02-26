@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{% if auth_dict["uid"] == 'matted' %}
+
 <html lang="en">
 
 {% include "include/head.html" %}
@@ -68,3 +71,5 @@
 </body>
 
 </html>
+
+{% endif %}
