@@ -23,7 +23,6 @@
     "popper.js": "^1.12.9"
   },
   "devDependencies": {
-    "browser-sync": "2.18.13",
     "gulp": "^3.9.1",
     "require-dir": "^1.0.0"
   }
