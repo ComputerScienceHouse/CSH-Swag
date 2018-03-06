@@ -117,3 +117,7 @@ img.img-thumbnail.table {
     text-decoration: none;
     background-color: #009bd7;
 }
+
+.dataTables_wrapper table thead{
+    display:none;
+}

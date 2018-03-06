@@ -136,11 +136,11 @@ $(document).ready(function () {
             }
         ],
         "columns": [
-            {"data": "receipt_id", "title": "ID"},
-            {"data": "purchased.item.product.name", "title": "Product"},
-            {"data": "cost", "title": "Cost", "render": cost},
-            {"data": "member_uid", "render": member, "title": "Member"},
-            {"data": "method", "render": method, "title": "Method"},
+            {"data": "receipt_id"},
+            {"data": "purchased.item.product.name"},
+            {"data": "cost", "render": cost},
+            {"data": "member_uid", "render": member},
+            {"data": "method", "render": method},
             {"data": null}
         ]
     });
