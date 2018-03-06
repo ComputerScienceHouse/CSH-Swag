@@ -135,7 +135,7 @@ $(document).ready(function () {
             }
         ],
         "columns": [
-            {"data": "receipt_id"},
+            {"data": "receipt_id", "visible": false},
             {"data": "purchased.item.product.name"},
             {"data": "cost", "render": cost},
             {"data": "member_uid", "render": member},

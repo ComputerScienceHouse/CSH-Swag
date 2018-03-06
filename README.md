@@ -20,8 +20,21 @@ Information needed:
 
 ### Dependencies
 
+- [python3](https://www.python.org)
+    - pip3
+        - pylint
+- [nodejs](https://nodejs.org)
+    - [npm](https://www.npmjs.com)
+        - [gulp](https://gulpjs.com)
+    - [yarn](https://yarnpkg.com)
 ```
 pip install -r requirements.txt
+npm install -g gulp
 yarn install
-gulp
 ```
+
+## Credits
+
+Credit to [ComputerScienceHouse/conditional](https://github.com/ComputerScienceHouse/conditional) the pylint and gulp reference
+
+Credit to [@stevenmirabito](https://github.com/stevenmirabito) for helping me, and putting up with my constant questions
