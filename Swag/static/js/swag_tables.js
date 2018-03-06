@@ -32,8 +32,6 @@ function cost(data) {
 
 
 $(document).ready(function () {
-    $('.js-example-basic-single').select2();
-
     var swag_table = $('#swag_table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -258,7 +256,12 @@ $(document).ready(function () {
         $.ajax({
             url: "/new/transaction",
             dataType: 'json',
-            data: "test",
+            data: {
+                "transaction-item-id": $('#transaction-item-id').val(),
+                "receipt-member": $('#receipt-member').val(),
+                "item-quantity": $('#item-quantity').val(),
+                "payment-method": $('#payment-method').val()
+            },
             method: "PUT"
         });
         receipts_table.ajax.reload();

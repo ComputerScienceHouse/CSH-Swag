@@ -40,7 +40,7 @@ migrate = flask_migrate.Migrate(app, db)
 
 # Import db and ldap models after instantiating db object
 from Swag.models import Swag, Item, Stock, Receipt, Review
-from Swag.ldap import ldap_is_financial
+from Swag.ldap import ldap_is_financial, get_active_members
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -107,9 +107,10 @@ def financial(auth_dict=None):
         venmo = 0
         items = Item.query.all()
         stock = Stock.query.all()
+        active_members = get_active_members()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo)
+        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo, active_members=active_members)
     else:
         return 403
 
@@ -184,7 +185,10 @@ def update_stock(auth_dict=None):
 def new_transaction(auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         data = request.form
-        return jsonify(data)
+        transaction = Receipt(data['transaction-item-id'], data['receipt-member'], data['payment-method'], data['item-quantity'])
+        db.session.add(transaction)
+        db.session.commit()
+        return jsonify(transaction.serialize)
     else:
         return 403
 

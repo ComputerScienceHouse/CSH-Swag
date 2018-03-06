@@ -1,4 +1,5 @@
 import enum
+import datetime
 
 from Swag import db
 
@@ -114,7 +115,7 @@ class Receipt(db.Model):
     __tablename__ = "receipts"
     receipt_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     stock_id = db.Column(db.Integer, db.ForeignKey("stock.stock_id"), nullable=False)
-    datetime = db.Column(db.DateTime, nullable=False)
+    datetime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     member_uid = db.Column(db.VARCHAR(75), nullable=True)
     discount_id = db.Column(db.Integer, nullable=True)
@@ -135,6 +136,12 @@ class Receipt(db.Model):
             'member_uid': self.member_uid,
             'method': self.method.name,
         }
+
+    def __init__(self, item_id, member_uid, method, quantity):
+        self.stock_id = item_id
+        self.member_uid = member_uid
+        self.method = method
+        self.quantity = quantity
 
 
 class Review(db.Model):
