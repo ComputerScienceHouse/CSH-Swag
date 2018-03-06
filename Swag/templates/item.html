@@ -67,13 +67,21 @@
                 <div class="card-body">
                     {% for review in reviews %}
                         <p>{{ review.review_text }}</p>
-                        <small>&bigstar;{{ review.review_score }}/5 &nbsp;</small>
+                        <small>&bigstar;&nbsp;{{ review.review_score }}/5&nbsp;</small>
                         <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
                         <hr>
                     {% endfor %}
-                    <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview" class="btn btn-primary">
-                        Leave a Review
-                    </button>
+                    {% if current_review == None %}
+                        <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview"
+                                class="btn btn-primary">
+                            Leave a Review
+                        </button>
+                    {% else %}
+                        <button {% if receipts|length == 0 %}disabled{% endif %} id="editReview"
+                                class="btn btn-primary">
+                            Edit Review
+                        </button>
+                    {% endif %}
                 </div>
             </div>
 

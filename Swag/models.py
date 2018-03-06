@@ -147,10 +147,14 @@ class Receipt(db.Model):
 class Review(db.Model):
     __tablename__ = "reviews"
     review_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
-    datetime = db.Column(db.DateTime, nullable=False)
+    datetime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     member_uid = db.Column(db.VARCHAR(75), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey("items.item_id"), nullable=False)
     review_score = db.Column(db.Float)
     review_text = db.Column(db.Text)
 
-    # item = db.relationship(Item, backref=db.backref("Item", uselist=False))
+    def __init__(self, member_uid, item_id, review_score, review_text):
+        self.member_uid = member_uid
+        self.item_id = item_id
+        self.review_score = review_score
+        self.review_text = review_text
