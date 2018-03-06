@@ -39,7 +39,7 @@ requests.packages.urllib3.disable_warnings()
 
 
 @app.route('/favicon.ico')
-def favicon():
+def _favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
@@ -47,7 +47,7 @@ def favicon():
 @app.route("/", methods=["GET"])
 @auth.oidc_auth
 @user_auth
-def home(auth_dict=None):
+def _home(auth_dict=None):
     db.create_all()
     items = Item.query.all()
     # TODO: Get swag items where all items have stock > 0
@@ -56,7 +56,7 @@ def home(auth_dict=None):
 
 @app.route("/logout")
 @auth.oidc_logout
-def logout():
+def _logout():
     return redirect("/", 302)
 
 
