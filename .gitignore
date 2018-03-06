@@ -2,3 +2,4 @@ node_modules
 config.py
 Swag/static/vendor
 .swagenv
+Swag/static/css

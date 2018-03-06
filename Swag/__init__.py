@@ -94,11 +94,12 @@ def _financial(auth_dict=None):
         venmo = 0
         items = Item.query.all()
         stock = Stock.query.all()
+        all_stock = Stock.query.all()
         active_members = get_active_members()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
         return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
-                               active_members=active_members)
+                               active_members=active_members, all_stock=all_stock)
     return 403
 
 

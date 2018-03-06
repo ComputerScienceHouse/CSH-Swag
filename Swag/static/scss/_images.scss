@@ -1,0 +1,24 @@
+img {
+  &.card-img-top {
+    &.index {
+      object-fit: cover;
+      overflow: hidden;
+      width: 100%;
+      height: 200px;
+    }
+
+    &.swag {
+      object-fit: cover;
+      overflow: hidden;
+      width: 100%;
+      height: 350px;
+    }
+  }
+
+  &.img-thumbnail.table {
+    object-fit: cover;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+  }
+}

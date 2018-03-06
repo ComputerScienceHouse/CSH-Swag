@@ -1,0 +1,21 @@
+.badge-cash {
+  color: #fff;
+  background-color: #39cb4a;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2fa83d;
+  }
+}
+
+.badge-venmo {
+  color: #fff;
+  background-color: #00b6ff;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #009bd7;
+  }
+}

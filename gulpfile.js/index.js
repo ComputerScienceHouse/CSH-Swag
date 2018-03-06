@@ -18,4 +18,4 @@ var gulp = require('gulp');
 requireDir('./tasks', {recurse: true});
 
 // Default task
-gulp.task('default', ['copy']);
+gulp.task('default', ['copy', 'sass:compile']);

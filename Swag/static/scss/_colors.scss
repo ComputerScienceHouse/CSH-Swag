@@ -1,0 +1,77 @@
+.badge-blue {
+  color: #fff;
+  background-color: #007bff;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0062cc;
+  }
+}
+
+.badge-black {
+  color: #fff;
+  background-color: #000000;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0f0f0f;
+  }
+}
+
+.badge-red {
+  color: #fff;
+  background-color: #dc3545;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #bd2130;
+  }
+}
+
+.badge-grey {
+  color: #fff;
+  background-color: #555555;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #444444;
+  }
+}
+
+.badge-purple {
+  color: #fff;
+  background-color: #8d2fff;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #7d30ee;
+  }
+}
+
+.badge-green {
+  color: #fff;
+  background-color: #34cb58;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2eb24e;
+  }
+}
+
+.badge-pink {
+  color: #fff;
+  background-color: #cb42a9;
+
+  &[href]:hover, &[href]:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #ad3b8d;
+  }
+}
+

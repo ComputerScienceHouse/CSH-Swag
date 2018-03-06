@@ -1,0 +1,10 @@
+.select2-container--bootstrap {
+
+  .select2-dropdown {
+    border-color: #b0197e;
+  }
+
+  &.select2-container--focus .select2-selection, &.select2-container--open .select2-selection {
+    border-color: #b0197e;
+  }
+}
