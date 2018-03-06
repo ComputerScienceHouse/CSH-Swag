@@ -4,10 +4,7 @@ python:
 
 install:
   - "pip install -r requirements.txt"
-  - "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.7/install.sh | bash"
-  - "nvm install"
-  - "nvm use"
-  - "npm install -g gulp"
   - "npm install"
+  - "npm install -g gulp"
 script:
   - "gulp production"
