@@ -213,8 +213,8 @@ $(document).ready(function () {
             },
             method: "POST"
         });
-        $('#swagEdit').modal('toggle');
         swag_table.ajax.reload();
+        $('#swagEdit').modal('toggle');
     });
 
     $('#updateItem').click(function () {
@@ -228,8 +228,8 @@ $(document).ready(function () {
             },
             method: "POST"
         });
-        $('#itemEdit').modal('toggle');
         items_table.ajax.reload();
+        $('#itemEdit').modal('toggle');
     });
 
     $('#updateStock').click(function () {
