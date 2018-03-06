@@ -17,5 +17,9 @@ var gulp = require('gulp');
 // Require all tasks in gulpfile.js/tasks, including subfolders
 requireDir('./tasks', {recurse: true});
 
+// CSS
+gulp.task('css', ['sass:compile', 'css:minify']);
+
 // Default task
-gulp.task('default', ['copy', 'sass:compile']);
+gulp.task('default', ['copy', 'css']);
+gulp.task('production', ['copy', 'css', 'pylint']);

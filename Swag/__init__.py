@@ -21,7 +21,7 @@ auth = OIDCAuthentication(app, issuer=app.config["OIDC_ISSUER"],
                           client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
 
 # Create CSHLDAP connection
-ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
+_ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
                app.config["LDAP_BIND_PW"])
 
 # Database setup
@@ -29,6 +29,7 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db and ldap models after instantiating db object
+# pylint: disable=wrong-import-position
 from .models import Swag, Item, Stock, Receipt, Review
 from .ldap import get_active_members
 from .utils import user_auth, financial_auth
