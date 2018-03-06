@@ -3,13 +3,12 @@ import requests
 import subprocess
 
 import flask_migrate
+from csh_ldap import CSHLDAP
 from flask import Flask, render_template, jsonify, request, redirect, send_from_directory
 from flask_optimize import FlaskOptimize
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
 
-from Swag.ldap import ldap_is_financial
 from Swag.utils import swag_auth
 
 app = Flask(__name__)
@@ -31,12 +30,17 @@ app.config["GIT_REVISION"] = subprocess.check_output(['git',
 auth = OIDCAuthentication(app, issuer=app.config["OIDC_ISSUER"],
                           client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
 
+# Create CSHLDAP connection
+ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
+               app.config["LDAP_BIND_PW"])
+
 # Database setup
 db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
-# Import db models after instantiating db object
+# Import db and ldap models after instantiating db object
 from Swag.models import Swag, Item, Stock, Receipt, Review
+from Swag.ldap import ldap_is_financial
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -98,8 +102,7 @@ def item(item_id, auth_dict=None):
 @swag_auth
 @flask_optimize.optimize()
 def financial(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         db.create_all()
         venmo = 0
         items = Item.query.all()
@@ -116,8 +119,7 @@ def financial(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def swag(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Swag.query.all()])
     else:
         return 403
@@ -128,8 +130,7 @@ def swag(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def update_swag(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         data = request.form
         swag = Swag.query.get(data['product-id'])
         swag.name = data['product-name']
@@ -147,8 +148,7 @@ def update_swag(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def update_item(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         data = request.form
         item = Item.query.get(data['item-id'])
         item.color = data['color-text']
@@ -165,8 +165,7 @@ def update_item(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def update_stock(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         data = request.form
         for value in data:
             stock = Stock.query.get(value)
@@ -183,8 +182,7 @@ def update_stock(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def new_transaction(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         data = request.form
         return jsonify(data)
     else:
@@ -205,8 +203,7 @@ def new_review(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def items(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Item.query.all()])
     else:
         return 403
@@ -217,8 +214,7 @@ def items(auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def stock(item_id, auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
     else:
         return 403
@@ -229,8 +225,7 @@ def stock(item_id, auth_dict=None):
 @swag_auth
 @flask_optimize.optimize('json')
 def receipts(auth_dict=None):
-    # TODO: Check to make sure financial
-    if auth_dict["uid"] == "matted":
+    if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
     else:
         return 403
