@@ -9,4 +9,3 @@ flask-optimize
 PyMySQL
 gunicorn
 pylint
-git-pylint-commit-hook

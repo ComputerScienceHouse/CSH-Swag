@@ -38,10 +38,6 @@ ignore-comments = yes
 ignore-docstrings = yes
 ignore-imports = no
 
-[pre-commit-hook]
-command=pylint Swag
-limit=8.0
-
 [BASIC]
 # Regular expression which should only match correct module names
 module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$
