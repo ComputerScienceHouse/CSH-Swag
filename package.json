@@ -1,37 +1,30 @@
 {
-  "title": "Shop Homepage",
-  "name": "startbootstrap-shop-homepage",
-  "version": "4.0.0-beta.2",
-  "description": "A shop homepage HTML template built with Bootstrap",
-  "keywords": [
-    "css",
-    "sass",
-    "html",
-    "responsive",
-    "theme",
-    "template"
-  ],
-  "homepage": "https://startbootstrap.com/template-overviews/shop-homepage",
+  "title": "CSH Swag",
+  "name": "csh-swag",
+  "version": "0.1",
+  "description": "A frontend shop for CSH",
   "bugs": {
-    "url": "https://github.com/BlackrockDigital/startbootstrap-shop-homepage/issues",
-    "email": "feedback@startbootstrap.com"
+    "url": "https://github.com/devinmatte/csh-swag/issues",
+    "email": "matted@csh.rit.edu"
   },
   "license": "MIT",
-  "author": "Start Bootstrap",
+  "author": "Devin Matte",
   "contributors": [
-    "David Miller (http://davidmiller.io/)"
+    "Devin Matte (https://devinmatte.com/)"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/BlackrockDigital/startbootstrap-shop-homepage.git"
+    "url": "https://github.com/devinmatte/csh-swag.git"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0",
     "csh-material-bootstrap": "^4.0.0-beta.3",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.9"
   },
   "devDependencies": {
     "browser-sync": "2.18.13",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "require-dir": "^1.0.0"
   }
 }

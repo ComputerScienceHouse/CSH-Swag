@@ -2,8 +2,9 @@
 # https://github.com/liam-middlebrook/gallery
 
 
-from flask import session
 from functools import wraps
+
+from flask import session
 
 
 def swag_auth(func):

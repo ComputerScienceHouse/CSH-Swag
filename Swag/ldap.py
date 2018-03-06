@@ -7,6 +7,7 @@ def ldap_is_financial(uid):
 
 
 def get_active_members():
-    active_members = [{"uid": member.get("uid")[0], "cn": member.get("cn")[0]} for member in ldap.get_group("current_student").get_members()]
+    active_members = [{"uid": member.get("uid")[0], "cn": member.get("cn")[0]} for member in
+                      ldap.get_group("current_student").get_members()]
     print(active_members)
     return active_members

@@ -1,5 +1,5 @@
-import enum
 import datetime
+import enum
 
 from Swag import db
 

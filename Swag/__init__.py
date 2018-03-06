@@ -1,8 +1,8 @@
 import os
-import requests
 import subprocess
 
 import flask_migrate
+import requests
 from csh_ldap import CSHLDAP
 from flask import Flask, render_template, jsonify, request, redirect, send_from_directory
 from flask_optimize import FlaskOptimize
@@ -39,8 +39,8 @@ db = SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 # Import db and ldap models after instantiating db object
-from Swag.models import Swag, Item, Stock, Receipt, Review
-from Swag.ldap import ldap_is_financial, get_active_members
+from .models import Swag, Item, Stock, Receipt, Review
+from .ldap import ldap_is_financial, get_active_members
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -110,9 +110,9 @@ def financial(auth_dict=None):
         active_members = get_active_members()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo, active_members=active_members)
-    else:
-        return 403
+        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
+                               active_members=active_members)
+    return 403
 
 
 @app.route("/swag", methods=["GET"])
@@ -122,8 +122,7 @@ def financial(auth_dict=None):
 def swag(auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Swag.query.all()])
-    else:
-        return 403
+    return 403
 
 
 @app.route("/update/swag", methods=["POST"])
@@ -140,8 +139,7 @@ def update_swag(auth_dict=None):
         swag.category = data['category-name']
         db.session.commit()
         return jsonify(swag.serialize)
-    else:
-        return 403
+    return 403
 
 
 @app.route("/update/item", methods=["POST"])
@@ -157,8 +155,7 @@ def update_item(auth_dict=None):
         item.image = data['image-url']
         db.session.commit()
         return jsonify(data)
-    else:
-        return 403
+    return 403
 
 
 @app.route("/update/stock", methods=["POST"])
@@ -174,8 +171,7 @@ def update_stock(auth_dict=None):
                 stock.stock = data.get(value)
         db.session.commit()
         return jsonify(data)
-    else:
-        return 403
+    return 403
 
 
 @app.route("/new/transaction", methods=["PUT"])
@@ -185,19 +181,18 @@ def update_stock(auth_dict=None):
 def new_transaction(auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         data = request.form
-        transaction = Receipt(data['transaction-item-id'], data['receipt-member'], data['payment-method'], data['item-quantity'])
+        transaction = Receipt(data['transaction-item-id'], data['receipt-member'],
+                              data['payment-method'], data['item-quantity'])
         db.session.add(transaction)
         db.session.commit()
         return jsonify(transaction.serialize)
-    else:
-        return 403
+    return 403
 
 
 @app.route("/new/review", methods=["PUT"])
 @auth.oidc_auth
-@swag_auth
 @flask_optimize.optimize('json')
-def new_review(auth_dict=None):
+def new_review():
     data = request.form
     return jsonify(data)
 
@@ -209,8 +204,7 @@ def new_review(auth_dict=None):
 def items(auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Item.query.all()])
-    else:
-        return 403
+    return 403
 
 
 @app.route("/stock/<item_id>", methods=["GET"])
@@ -220,8 +214,7 @@ def items(auth_dict=None):
 def stock(item_id, auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
-    else:
-        return 403
+    return 403
 
 
 @app.route("/receipts", methods=["GET"])
@@ -231,5 +224,4 @@ def stock(item_id, auth_dict=None):
 def receipts(auth_dict=None):
     if ldap_is_financial(auth_dict["uid"]):
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
-    else:
-        return 403
+    return 403
