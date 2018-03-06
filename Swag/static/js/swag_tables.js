@@ -52,7 +52,7 @@ $(document).ready(function () {
                 targets: -1
             },
             {
-                "targets": 4,
+                "targets": 3,
                 orderable: false,
                 width: "47px",
                 data: null,
@@ -62,7 +62,6 @@ $(document).ready(function () {
         "columns": [
             {"data": "name", "title": "Product"},
             {"data": "description", "title": "Description"},
-            {"data": "category", "title": "Category"},
             {"data": "price", "render": cost, "title": "Price"},
             {"data": null}
         ]

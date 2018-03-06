@@ -1,9 +1,10 @@
-sudo:          false
-language:      node_js
-node_js:
-  - "node"
-install:       npm install
-before_script:
-  - npm install -g gulp
+language: python
+python:
+  - "3.6"
+
+install:
+  - "pip install -r requirements.txt"
+  - "npm install"
+  - "npm install -g gulp"
 script:
-  - gulp
+  - "gulp production"
