@@ -1,77 +1,52 @@
 .badge-blue {
   color: #fff;
   background-color: #007bff;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #0062cc;
-  }
 }
 
 .badge-black {
   color: #fff;
   background-color: #000000;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #0f0f0f;
-  }
 }
 
 .badge-red {
   color: #fff;
   background-color: #dc3545;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #bd2130;
-  }
 }
 
 .badge-grey {
   color: #fff;
   background-color: #555555;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #444444;
-  }
 }
 
 .badge-purple {
   color: #fff;
   background-color: #8d2fff;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #7d30ee;
-  }
 }
 
 .badge-green {
   color: #fff;
-  background-color: #34cb58;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #2eb24e;
-  }
+  background-color: #78c042;
 }
 
 .badge-pink {
   color: #fff;
   background-color: #cb42a9;
-
-  &[href]:hover, &[href]:focus {
-    color: #fff;
-    text-decoration: none;
-    background-color: #ad3b8d;
-  }
 }
 
+.badge-pride {
+  color: #000;
+  background-color: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, red, orange, yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, red, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, red, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+}
+
+.badge-40th {
+  color: #fff;
+  background-color: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #50a8b0, #ad869f, #3e8c75); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #50a8b0, #ad869f, #3e8c75); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #50a8b0, #ad869f, #3e8c75); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #50a8b0, #ad869f, #3e8c75); /* Standard syntax (must be last) */
+}

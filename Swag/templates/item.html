@@ -67,7 +67,7 @@
                 <div class="card-body">
                     {% for review in reviews %}
                         <p>{{ review.review_text }}</p>
-                        <small>&bigstar;&nbsp;{{ review.review_score }}/5&nbsp;</small>
+                        <small><b>&bigstar;&nbsp;{{ review.review_score }}/5&nbsp;</b></small>
                         <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
                         <hr>
                     {% endfor %}
