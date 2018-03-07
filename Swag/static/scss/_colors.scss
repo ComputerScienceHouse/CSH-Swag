@@ -34,17 +34,17 @@
 }
 
 .badge-pride {
-  color: #000;
-  background-color: red; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left, red, orange, yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, red, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, red, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+  color: #fff;
+  background-color: #c04e44; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #c04e44, #d29b65, #d2ba64, #799f5e, #3f84c2, #9c51b0); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #c04e44, #d29b65, #d2ba64, #799f5e, #3f84c2, #9c51b0); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #c04e44, #d29b65, #d2ba64, #799f5e, #3f84c2, #9c51b0); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #c04e44, #d29b65, #d2ba64, #799f5e, #3f84c2, #9c51b0); /* Standard syntax (must be last) */
 }
 
 .badge-40th {
   color: #fff;
-  background-color: red; /* For browsers that do not support gradients */
+  background-color: #ad869f; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left, #50a8b0, #ad869f, #3e8c75); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(right, #50a8b0, #ad869f, #3e8c75); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(right, #50a8b0, #ad869f, #3e8c75); /* For Firefox 3.6 to 15 */
