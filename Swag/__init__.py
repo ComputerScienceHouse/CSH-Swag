@@ -49,7 +49,7 @@ def _favicon():
 @user_auth
 def _home(auth_dict=None):
     db.create_all()
-    items = Item.query.all()
+    items = Item.query.order_by(Item.product_id).all()
     # TODO: Get swag items where all items have stock > 0
     return render_template("index.html", auth_dict=auth_dict, items=items)
 
