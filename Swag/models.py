@@ -28,6 +28,8 @@ class SizeOptions(enum.Enum):
     XL = 4
     XXL = 5
     XXXL = 6
+    Square = 7
+    Rounded = 8
 
 
 class Swag(db.Model):
