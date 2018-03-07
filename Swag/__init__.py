@@ -167,6 +167,8 @@ def _new_transaction(auth_dict=None):
         data = request.form
         transaction = Receipt(data['transaction-item-id'], data['receipt-member'],
                               data['payment-method'], data['item-quantity'])
+        stock_item = Stock.query.filter_by(stock_id=data['transaction-item-id'])
+        stock_item.stock -= 1
         db.session.add(transaction)
         db.session.commit()
         return jsonify(transaction.serialize)
