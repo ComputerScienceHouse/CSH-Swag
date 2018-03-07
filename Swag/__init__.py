@@ -80,7 +80,7 @@ def _item(item_id, auth_dict=None):
     receipts = [Receipt.query.filter_by(member_uid=auth_dict['uid'], stock_id=stock_item.stock_id).first() for
                 stock_item in stock]
     receipts = list(filter(None.__ne__, receipts))
-    current_review = Review.query.filter_by(member_uid=auth_dict['uid']).first()
+    current_review = Review.query.filter_by(member_uid=auth_dict['uid'], item_id=item_id).first()
 
     return render_template("item.html", auth_dict=auth_dict, item_id=item_id, item=item, stock=stock, reviews=reviews,
                            receipts=receipts, current_review=current_review)
