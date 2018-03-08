@@ -33,15 +33,23 @@
                             <div class="card h-100">
                                 <a title="{{ item.product.name }}" href="/item/{{ item.item_id }}">
                                     <img class="card-img-top index" src="
+
                                             {% if item.image != None %}{{ item.image }}{% else %}https://placehold.it/700x400{% endif %}"
                                          alt="{{ item.product.name }}">
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a title="{{ item.product.name }}" href="/item/{{ item.item_id }}">{{ item.product.name }}</a>
+                                        <a title="{{ item.product.name }}"
+                                           href="/item/{{ item.item_id }}">{{ item.product.name }}</a>
                                         <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
                                     </h4>
-                                    <h5>${{ item.product.price }}</h5>
+                                    <h5>
+                                        {% if item.product.price > 0 %}
+                                            ${{ item.product.price }}
+                                        {% else %}
+                                            <span class="badge badge-success">Free</span>
+                                        {% endif %}
+                                    </h5>
                                 </div>
                                 <div class="card-footer">
                                     <p class="card-text">{{ item.product.description }}</p>
