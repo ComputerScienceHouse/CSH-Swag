@@ -120,8 +120,6 @@ class Receipt(db.Model):
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     quantity = db.Column(db.Integer, nullable=False, default=1)
     member_uid = db.Column(db.VARCHAR(75), nullable=True)
-    discount_id = db.Column(db.Integer, nullable=True)
-    shipping_cost = db.Column(db.Integer, nullable=True)
     method = db.Column(db.Enum(PaymentMethod), nullable=True)
 
     purchased = db.relationship(Stock, backref=db.backref("Stock", uselist=False))
