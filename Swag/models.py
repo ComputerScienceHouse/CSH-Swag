@@ -38,7 +38,7 @@ class Swag(db.Model):
     name = db.Column(db.VARCHAR(45), nullable=False)
     description = db.Column(db.VARCHAR(255))
     category = db.Column(db.VARCHAR(45), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.DECIMAL(25, 2), nullable=False)
 
     @property
     def serialize(self):
