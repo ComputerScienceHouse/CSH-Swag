@@ -131,7 +131,7 @@ class Receipt(db.Model):
             'receipt_id': self.receipt_id,
             'datetime': self.datetime.strftime('%m/%d/%Y'),
             'purchased': self.purchased.serialize,
-            'cost': self.quantity * self.purchased.item.product.price,
+            'cost': self.quantity * float(self.purchased.item.product.price),
             'quantity': self.quantity,
             'member_uid': self.member_uid,
             'method': self.method.name,
