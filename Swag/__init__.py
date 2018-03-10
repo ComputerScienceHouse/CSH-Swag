@@ -33,6 +33,7 @@ migrate = flask_migrate.Migrate(app, db)
 from .models import Swag, Item, Stock, Receipt, Review
 from .ldap import get_current_students
 from .utils import user_auth, financial_auth
+from .routes import update, new
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -86,7 +87,7 @@ def _item(item_id, auth_dict=None):
                            receipts=receipts, current_review=current_review)
 
 
-@app.route("/manage", methods=["GET"])
+@app.route("/admin", methods=["GET"])
 @auth.oidc_auth
 @financial_auth
 def _financial(auth_dict=None):
@@ -99,7 +100,7 @@ def _financial(auth_dict=None):
         active_members = get_current_students()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
+        return render_template("admin/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
                                active_members=active_members, all_stock=all_stock)
     return 403
 
@@ -111,79 +112,6 @@ def _swag(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Swag.query.all()])
     return 403
-
-
-@app.route("/update/swag", methods=["POST"])
-@auth.oidc_auth
-@financial_auth
-def _update_swag(auth_dict=None):
-    if auth_dict["is_financial"]:
-        data = request.form
-        swag = Swag.query.get(data['product-id'])
-        swag.name = data['product-name']
-        swag.description = data['description-text']
-        swag.price = data['price-value']
-        swag.category = data['category-name']
-        db.session.commit()
-        return jsonify(swag.serialize)
-    return 403
-
-
-@app.route("/update/item", methods=["POST"])
-@auth.oidc_auth
-@financial_auth
-def _update_item(auth_dict=None):
-    if auth_dict["is_financial"]:
-        data = request.form
-        item = Item.query.get(data['item-id'])
-        item.color = data['color-text']
-        item.product_id = data['product-id']
-        item.image = data['image-url']
-        db.session.commit()
-        return jsonify(data)
-    return 403
-
-
-@app.route("/update/stock", methods=["POST"])
-@auth.oidc_auth
-@financial_auth
-def _update_stock(auth_dict=None):
-    if auth_dict["is_financial"]:
-        data = request.form
-        for value in data:
-            stock = Stock.query.get(value)
-            if stock is not None:
-                stock.stock = data.get(value)
-        db.session.commit()
-        return jsonify(data)
-    return 403
-
-
-@app.route("/new/transaction", methods=["PUT"])
-@auth.oidc_auth
-@financial_auth
-def _new_transaction(auth_dict=None):
-    if auth_dict["is_financial"]:
-        data = request.form
-        transaction = Receipt(data['transaction-item-id'], data['receipt-member'],
-                              data['payment-method'], data['item-quantity'])
-        stock_item = Stock.query.filter_by(stock_id=data['transaction-item-id']).first()
-        stock_item.stock -= int(data['item-quantity'])
-        db.session.add(transaction)
-        db.session.commit()
-        return jsonify(transaction.serialize)
-    return 403
-
-
-@app.route("/new/review", methods=["PUT"])
-@auth.oidc_auth
-@user_auth
-def _new_review(auth_dict=None):
-    data = request.form
-    review = Review(auth_dict['uid'], data['item-id'], data['rating'], data['review-text'])
-    db.session.add(review)
-    db.session.commit()
-    return 205
 
 
 @app.route("/items", methods=["GET"])
