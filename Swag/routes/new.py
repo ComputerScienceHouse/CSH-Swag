@@ -1,6 +1,7 @@
 from flask import request, jsonify
 
-from Swag import app, auth, financial_auth, Receipt, Stock, db, user_auth, Review
+from Swag import app, auth, financial_auth, db, user_auth
+from Swag.models import Receipt, Stock, Review
 
 
 @app.route("/new/transaction", methods=["PUT"])

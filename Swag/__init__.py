@@ -3,13 +3,12 @@ import os
 import flask_migrate
 import requests
 from csh_ldap import CSHLDAP
-from flask import Flask, render_template, jsonify, request, redirect, send_from_directory
+from flask import Flask, render_template, jsonify, redirect, send_from_directory
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 
 # Get app config from absolute file path
 if os.path.exists(os.path.join(os.getcwd(), "config.py")):
@@ -22,7 +21,7 @@ auth = OIDCAuthentication(app, issuer=app.config["OIDC_ISSUER"],
 
 # Create CSHLDAP connection
 _ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
-               app.config["LDAP_BIND_PW"])
+                app.config["LDAP_BIND_PW"])
 
 # Database setup
 db = SQLAlchemy(app)
@@ -33,10 +32,12 @@ migrate = flask_migrate.Migrate(app, db)
 from .models import Swag, Item, Stock, Receipt, Review
 from .ldap import get_current_students
 from .utils import user_auth, financial_auth
-from .routes import update, new
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
+
+# Import routes
+from .routes import update, new
 
 
 @app.route('/favicon.ico')
