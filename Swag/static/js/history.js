@@ -23,32 +23,33 @@ $(document).ready(function () {
 
     var ctx = $("#purchaseMethods");
 
-    var dataset = []
+    var dataset = {};
     $.ajax({
         url: "/methods",
         method: "GET",
         success: function (data) {
-            data.forEach(function (method) {
-                dataset.add(method)
-            });
+            var values = [];
+            for (var key in data) {
+                values.push(data[key]);
+            }
+
+            dataset = {
+                datasets: [{
+                    data: values,
+                    backgroundColor: ["#39cb4a", "#00b6ff", "#777777"]
+                }],
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: [
+                    'Cash',
+                    'Venmo',
+                    'Check'
+                ]
+            }
         }
     });
 
-    data = {
-        datasets: [{
-            data: dataset,
-            backgroundColor: ["#39cb4a", "#00b6ff", "#777777"]
-        }],
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Cash',
-            'Venmo',
-            'Check'
-        ]
-    }
-
     var purchaseMethods = new Chart(ctx, {
         type: 'pie',
-        data: data
+        data: dataset
     });
 });

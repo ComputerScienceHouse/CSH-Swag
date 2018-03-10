@@ -167,3 +167,20 @@ def _methods(auth_dict=None):
     for i in receipts:
         total[i.method.name] += i.quantity * float(i.purchased.item.product.price)
     return jsonify(data=total)
+
+
+@app.route("/methods/all", methods=["GET"])
+@auth.oidc_auth
+@financial_auth
+def _methods_all(auth_dict=None):
+    if auth_dict["is_financial"]:
+        total = {
+            "Cash": 0,
+            "Venmo": 0,
+            "Check": 0
+        }
+        receipts = Receipt.query.all()
+        for i in receipts:
+            total[i.method.name] += i.quantity * float(i.purchased.item.product.price)
+        return jsonify(data=total)
+    return 403
