@@ -31,7 +31,7 @@ migrate = flask_migrate.Migrate(app, db)
 # Import db and ldap models after instantiating db object
 # pylint: disable=wrong-import-position
 from .models import Swag, Item, Stock, Receipt, Review
-from .ldap import get_active_members
+from .ldap import get_current_students
 from .utils import user_auth, financial_auth
 
 # Disable SSL certificate verification warning
@@ -96,7 +96,7 @@ def _financial(auth_dict=None):
         items = Item.query.all()
         stock = Stock.query.all()
         all_stock = Stock.query.all()
-        active_members = get_active_members()
+        active_members = get_current_students()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
         return render_template("manage/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
