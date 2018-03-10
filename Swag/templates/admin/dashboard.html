@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-{% if auth_dict["uid"] == 'matted' %}
+{% if auth_dict["is_financial"] %}
 
 <html lang="en">
 
@@ -68,7 +68,7 @@
 
 {% include "include/scripts.html" %}
 
-<script src="{{ url_for('static', filename='js/swag_tables.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin_tables.js') }}"></script>
 
 </body>
 

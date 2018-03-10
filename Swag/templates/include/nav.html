@@ -8,7 +8,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mr-auto">
-                {% if auth_dict["uid"] == 'matted' %}
+                {% if auth_dict["is_financial"] %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>

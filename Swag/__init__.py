@@ -88,6 +88,13 @@ def _item(item_id, auth_dict=None):
                            receipts=receipts, current_review=current_review)
 
 
+@app.route('/history', methods=['GET'])
+@auth.oidc_auth
+@user_auth
+def _history(auth_dict=None):
+    return render_template("history.html", auth_dict=auth_dict)
+
+
 @app.route("/admin", methods=["GET"])
 @auth.oidc_auth
 @financial_auth
@@ -133,8 +140,15 @@ def _stock(item_id, auth_dict=None):
 
 @app.route("/receipts", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@user_auth
 def _receipts(auth_dict=None):
+    return jsonify(data=[i.serialize for i in Receipt.query.filter_by(member_uid=auth_dict['uid']).all()])
+
+
+@app.route("/receipts/all", methods=["GET"])
+@auth.oidc_auth
+@financial_auth
+def _receipts_all(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
     return 403

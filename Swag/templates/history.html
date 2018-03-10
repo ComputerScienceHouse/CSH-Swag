@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% include "include/head.html" %}
+
+<body>
+
+{% include "include/nav.html" %}
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card text-xs-center mt-3 mb-3">
+                <div class="card-header">
+                    <h4>
+                        <span>Receipts</span>
+                    </h4>
+                </div>
+                <table id="receipts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+
+        </div>
+    </div>
+
+</div>
+
+{% include "include/footer.html" %}
+
+{% include "include/scripts.html" %}
+
+<script src="{{ url_for('static', filename='js/swag_tables.js') }}"></script>
+
+</body>
+
+</html>

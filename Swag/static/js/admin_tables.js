@@ -117,7 +117,7 @@ $(document).ready(function () {
         "pageLength": 8,
         "order": [[0, 'desc']],
         "ajax": {
-            url: "/receipts",
+            url: "/receipts/all",
             type: 'GET'
         },
         "columnDefs": [
