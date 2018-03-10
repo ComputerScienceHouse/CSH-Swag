@@ -20,4 +20,22 @@ $(document).ready(function () {
             {"data": "method", "render": method, "title": "Method"}
         ]
     });
+
+    var ctx = $("#purchaseMethods");
+    data = {
+        datasets: [{
+            data: [10, 20, 0]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Cash',
+            'Venmo',
+            'Check'
+        ]
+    }
+    var purchaseMethods = new Chart(ctx, {
+        type: 'pie',
+        data: data
+    });
 });

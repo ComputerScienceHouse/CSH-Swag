@@ -16,6 +16,11 @@ gulp.task('copy', function() {
     ])
     .pipe(gulp.dest('Swag/static/vendor/select2-bootstrap-theme'))
 
+    gulp.src([
+      'node_modules/chart.js/dist/*.js'
+    ])
+    .pipe(gulp.dest('Swag/static/vendor/chart.js'))
+
   gulp.src(['node_modules/jquery/dist/jquery.js', 'node_modules/jquery/dist/jquery.min.js'])
     .pipe(gulp.dest('Swag/static/vendor/jquery'))
 })
