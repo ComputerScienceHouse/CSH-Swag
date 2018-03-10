@@ -165,5 +165,5 @@ def _methods(auth_dict=None):
     }
     receipts = Receipt.query.filter_by(member_uid=auth_dict['uid']).all()
     for i in receipts:
-        total[i.method] += i.quantity * float(i.purchased.item.product.price)
+        total[i.method.name] += i.quantity * float(i.purchased.item.product.price)
     return jsonify(data=total)
