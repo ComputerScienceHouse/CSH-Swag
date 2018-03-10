@@ -95,14 +95,12 @@ def _financial(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
         venmo = 0
-        items = Item.query.all()
-        stock = Stock.query.all()
         all_stock = Stock.query.all()
         active_members = get_current_students()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("admin/dashboard.html", auth_dict=auth_dict, items=items, stock=stock, venmo=venmo,
-                               active_members=active_members, all_stock=all_stock)
+        return render_template("admin/dashboard.html", auth_dict=auth_dict, venmo=venmo, active_members=active_members,
+                               all_stock=all_stock)
     return 403
 
 

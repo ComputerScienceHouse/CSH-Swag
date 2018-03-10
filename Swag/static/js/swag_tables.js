@@ -14,7 +14,7 @@ function member(data) {
     if (data != null) {
         return "<img class='img-thumbnail table' src='https://profiles.csh.rit.edu/image/" + data + "'>";
     } else {
-        return "<img class='img-thumbnail table' src='http://placehold.it/25x25'>";
+        return "<img class='img-thumbnail table' src='https://placehold.it/25x25'>";
     }
 }
 
