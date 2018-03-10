@@ -22,11 +22,23 @@ $(document).ready(function () {
     });
 
     var ctx = $("#purchaseMethods");
+
+    var dataset = []
+    $.ajax({
+        url: "/methods",
+        method: "GET",
+        success: function (data) {
+            data.forEach(function (method) {
+                dataset.add(method)
+            });
+        }
+    });
+
     data = {
         datasets: [{
-            data: [10, 20, 0]
+            data: dataset,
+            backgroundColor: ["#39cb4a", "#00b6ff", "#777777"]
         }],
-
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
             'Cash',
@@ -34,6 +46,7 @@ $(document).ready(function () {
             'Check'
         ]
     }
+
     var purchaseMethods = new Chart(ctx, {
         type: 'pie',
         data: data
