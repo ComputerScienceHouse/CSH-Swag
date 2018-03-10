@@ -6,13 +6,18 @@
                 data-target="#navbarResponsive">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
-            <ul class="nav navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
                 {% if auth_dict["uid"] == 'matted' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>
                 {% endif %}
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item navbar-user dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="user01">
                         <img src="https://profiles.csh.rit.edu/image/{{ auth_dict["uid"] }}">
@@ -22,6 +27,7 @@
                     <div class="dropdown-menu" aria-labelledby="user01">
                         {#<a class="dropdown-item" href="#">Profile</a>#}
                         {#<a class="dropdown-item" href="#">Settings</a>#}
+                        <a class="dropdown-item" href="#">History</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
