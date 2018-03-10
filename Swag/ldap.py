@@ -2,7 +2,7 @@ from Swag import _ldap
 
 
 def ldap_is_financial(uid):
-    financial = _ldap.get_directorship_heads("Financial")
+    financial = _ldap.get_directorship_heads("financial")
     return financial[0].get("uid")[0] == uid
 
 
