@@ -12,26 +12,12 @@ $(document).ready(function () {
             url: "/receipts",
             type: 'GET'
         },
-        "columnDefs": [
-            {
-                className: 'control',
-                orderable: false,
-                targets: -1
-            },
-            {
-                "targets": 4,
-                orderable: false,
-                width: "47px",
-                data: null,
-                "defaultContent": '<div class="btn-group pull-right" role="group"><button title="Edit" class="btn btn-primary"><i class="fa fa-edit"></i></button></div>'
-            }
-        ],
         "columns": [
             {"data": "receipt_id", "visible": false},
-            {"data": "purchased.item.product.name"},
-            {"data": "cost", "render": cost},
-            {"data": "method", "render": method},
-            {"data": null}
+            {"data": "datetime", "title": "Date"},
+            {"data": "purchased.item.product.name", "title": "Product"},
+            {"data": "cost", "render": cost, "title": "Cost"},
+            {"data": "method", "render": method, "title": "Method"}
         ]
     });
 });
