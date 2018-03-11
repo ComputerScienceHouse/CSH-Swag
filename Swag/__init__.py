@@ -166,7 +166,7 @@ def _methods(auth_dict=None):
     receipts = Receipt.query.filter_by(member_uid=auth_dict['uid']).all()
     for i in receipts:
         total[i.method.name] += i.quantity * float(i.purchased.item.product.price)
-    return jsonify(data=total)
+    return jsonify(total)
 
 
 @app.route("/methods/all", methods=["GET"])
@@ -182,5 +182,5 @@ def _methods_all(auth_dict=None):
         receipts = Receipt.query.all()
         for i in receipts:
             total[i.method.name] += i.quantity * float(i.purchased.item.product.price)
-        return jsonify(data=total)
+        return jsonify(total)
     return 403
