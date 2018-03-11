@@ -24,21 +24,22 @@ $(document).ready(function () {
     var ctx = $("#purchaseMethods");
 
     var dataset = {};
+    var values = [];
     $.ajax({
         url: "/methods",
         method: "GET",
         success: function (data) {
-            var values = [];
             for (var key in data) {
                 values.push(data[key]);
             }
+
+            console.log(values);
 
             dataset = {
                 datasets: [{
                     data: values,
                     backgroundColor: ["#39cb4a", "#00b6ff", "#777777"]
                 }],
-                // These labels appear in the legend and in the tooltips when hovering different arcs
                 labels: [
                     'Cash',
                     'Venmo',
