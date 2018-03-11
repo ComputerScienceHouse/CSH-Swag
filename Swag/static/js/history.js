@@ -25,6 +25,10 @@ $(document).ready(function () {
 
     var dataset = {};
     var values = [];
+    var purchaseMethods = new Chart(ctx, {
+        type: 'pie',
+        data: dataset
+    });
     $.ajax({
         url: "/methods",
         method: "GET",
@@ -33,24 +37,22 @@ $(document).ready(function () {
                 values.push(data[key]);
             }
 
-            console.log(values);
-
             dataset = {
                 datasets: [{
                     data: values,
-                    backgroundColor: ["#39cb4a", "#00b6ff", "#777777"]
+                    backgroundColor: ["#39cb4a", "#777777", "#00b6ff"]
                 }],
                 labels: [
                     'Cash',
-                    'Venmo',
-                    'Check'
+                    'Check',
+                    'Venmo'
                 ]
             }
-        }
-    });
 
-    var purchaseMethods = new Chart(ctx, {
-        type: 'pie',
-        data: dataset
+            purchaseMethods = new Chart(ctx, {
+                type: 'pie',
+                data: dataset
+            });
+        }
     });
 });
