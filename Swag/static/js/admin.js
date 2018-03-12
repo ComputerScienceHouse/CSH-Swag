@@ -111,6 +111,41 @@ $(document).ready(function () {
         ]
     });
 
+    var ctx = $("#purchaseMethods");
+
+    var dataset = {};
+    var values = [];
+    var purchaseMethods = new Chart(ctx, {
+        type: 'pie',
+        data: dataset
+    });
+    $.ajax({
+        url: "/methods/all",
+        method: "GET",
+        success: function (data) {
+            for (var key in data) {
+                values.push(data[key]);
+            }
+
+            dataset = {
+                datasets: [{
+                    data: values,
+                    backgroundColor: ["#39cb4a", "#777777", "#00b6ff"]
+                }],
+                labels: [
+                    'Cash',
+                    'Check',
+                    'Venmo'
+                ]
+            }
+
+            purchaseMethods = new Chart(ctx, {
+                type: 'pie',
+                data: dataset
+            });
+        }
+    });
+
     $('#swag_table tbody').on('click', 'button', function () {
         var data = swag_table.row($(this).parents('tr')).data();
         $('#product-id').val(data.swag_id);
