@@ -148,13 +148,14 @@ $(document).ready(function () {
 
     $('#swag_table tbody').on('click', 'button', function () {
         var data = swag_table.row($(this).parents('tr')).data();
+
         $('#product-id').val(data.swag_id);
         $('#product-name').val(data.name);
         $('#description-text').val(data.description);
         $('#category-name').val(data.category);
         $('#price-value').val(data.price);
-        $('#swagEdit').modal('toggle');
 
+        $('#swagEdit').modal('toggle');
     });
 
     $('#items_table tbody').on('click', 'button', function () {
@@ -199,7 +200,14 @@ $(document).ready(function () {
 
     $('#receipts_table tbody').on('click', 'button', function () {
         var data = receipts_table.row($(this).parents('tr')).data();
-        $('#receiptsEdit').modal('toggle');
+
+        $('#receipt-id').val(data.receipt_id);
+        $('#transaction-item-id').val(data.purchased.stock_id);
+        $('#receipt-member').val(data.member_uid);
+        $('#item-quantity').val(data.quantity);
+        $('#payment-method').val(data.method);
+
+        $('#editReceipt').modal('toggle');
     });
 
     $('#updateSwag').click(function () {
@@ -231,6 +239,22 @@ $(document).ready(function () {
         });
         items_table.ajax.reload();
         $('#itemEdit').modal('toggle');
+    });
+
+    $('#updateReceipt').click(function () {
+        $.ajax({
+            url: "/update/receipt",
+            data: {
+                "receipt-id": $('#update-receipt-id').val(),
+                "transaction-item-id": $('#update-transaction-item-id').val(),
+                "receipt-member": $('#update-receipt-member').val(),
+                "item-quantity": $('#update-item-quantity').val(),
+                "payment-method": $('#update-payment-method').val()
+            },
+            method: "POST"
+        });
+        receipts_table.ajax.reload();
+        $('#editReceipt').modal('toggle');
     });
 
     $('#updateStock').click(function () {

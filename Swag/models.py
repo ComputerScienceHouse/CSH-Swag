@@ -16,8 +16,9 @@ class PaymentMethod(enum.Enum):
     Cash = 1
     Check = 2
     Venmo = 3
-    Card = 4
-    Online = 5
+    Paypal = 4
+    Card = 5
+    Online = 6
 
 
 class SizeOptions(enum.Enum):

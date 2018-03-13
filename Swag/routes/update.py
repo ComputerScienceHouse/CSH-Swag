@@ -1,6 +1,7 @@
 from flask import request, jsonify
 
-from Swag import app, auth, financial_auth, Swag, db, Item, Stock
+from Swag import app, auth, financial_auth, Swag, db
+from Swag.models import Receipt, Stock, Item
 
 
 @app.route("/update/swag", methods=["POST"])
@@ -46,4 +47,20 @@ def _update_stock(auth_dict=None):
                 stock.stock = data.get(value)
         db.session.commit()
         return jsonify(data)
+    return 403
+
+
+@app.route("/update/receipt", methods=["POST"])
+@auth.oidc_auth
+@financial_auth
+def _update_receipt(auth_dict=None):
+    if auth_dict["is_financial"]:
+        data = request.form
+        receipt = Receipt.query.get(data['receipt-id'])
+        receipt.stock_id = data['transaction-item-id']
+        receipt.member_uid = data['receipt-member']
+        receipt.method = data['payment-method']
+        receipt.quantity = data['item-quantity']
+        db.session.commit()
+        return jsonify(receipt.serialize)
     return 403
