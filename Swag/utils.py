@@ -14,11 +14,15 @@ def user_auth(func):
     def wrapped_function(*args, **kwargs):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
+        is_financial = ldap_is_financial(uid)
+
         auth_dict = {
             "uuid": uuid,
-            "uid": uid
+            "uid": uid,
+            "is_financial": is_financial
         }
         kwargs["auth_dict"] = auth_dict
+
         return func(*args, **kwargs)
 
     return wrapped_function
@@ -29,12 +33,16 @@ def financial_auth(func):
     def wrapped_function(*args, **kwargs):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
+        is_financial = ldap_is_financial(uid)
+
         auth_dict = {
             "uuid": uuid,
             "uid": uid,
-            "is_financial": ldap_is_financial(uid)
+            "is_financial": is_financial
         }
         kwargs["auth_dict"] = auth_dict
-        return func(*args, **kwargs)
+
+        if is_financial:
+            return func(*args, **kwargs)
 
     return wrapped_function
