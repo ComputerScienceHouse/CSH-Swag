@@ -44,5 +44,6 @@ def financial_auth(func):
 
         if is_financial:
             return func(*args, **kwargs)
+        return None
 
     return wrapped_function

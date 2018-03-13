@@ -1,53 +1,42 @@
-<div class="modal fade" id="newTransaction" role="dialog" aria-labelledby="newTransactionLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="transaction-item-id" class="col-form-label">Item:</label>
-                        <select class="select2-select" id="transaction-item-id" name="transaction-item-id">
-                            {% for stock_item in all_stock %}
-                                <option value="{{ stock_item.stock_id }}">{{ stock_item.item.product.name }}
-                                    ({{ stock_item.item.color }}/{{ stock_item.size.name }})
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="receipt-member" class="col-form-label">Member:</label>
-                        <select class="select2-select" id="receipt-member" name="receipt-member">
-                            {% for member in active_members %}
-                                <option value="{{ member.uid }}">{{ member.cn }} ({{ member.uid }})</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="item-quantity" class="col-form-label">Quantity:</label>
-                        <input type="number" class="form-control" min="1" value="1" id="item-quantity">
-                    </div>
-                    <div class="form-group">
-                        <label for="payment-method" class="col-form-label">Quantity:</label>
-                        <select class="select2-select" id="payment-method" name="payment-method">
-                            <option value="Venmo">Venmo</option>
-                            <option value="Cash">Cash</option>
-                            <option value="Check">Check</option>
-                            <option value="Paypal">Paypal</option>
-                            <option value="Card">Card</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group pull-right" role="group">
-                    <button id="addNewTransaction" type="button" class="btn btn-primary">Add Transaction</button>
-                </div>
-            </div>
+{% extends 'modal.html' %}
+{% block id %}newTransaction{% endblock %}
+{% block idLabel %}newTransactionLabel{% endblock %}
+{% block form %}
+    <form>
+        <div class="form-group">
+            <label for="transaction-item-id" class="col-form-label">Item:</label>
+            <select class="select2-select" id="transaction-item-id" name="transaction-item-id">
+                {% for stock_item in all_stock %}
+                    <option value="{{ stock_item.stock_id }}">{{ stock_item.item.product.name }}
+                        ({{ stock_item.item.color }}/{{ stock_item.size.name }})
+                    </option>
+                {% endfor %}
+            </select>
         </div>
-    </div>
-</div>
+        <div class="form-group">
+            <label for="receipt-member" class="col-form-label">Member:</label>
+            <select class="select2-select" id="receipt-member" name="receipt-member">
+                {% for member in active_members %}
+                    <option value="{{ member.uid }}">{{ member.cn }} ({{ member.uid }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="item-quantity" class="col-form-label">Quantity:</label>
+            <input type="number" class="form-control" min="1" value="1" id="item-quantity">
+        </div>
+        <div class="form-group">
+            <label for="payment-method" class="col-form-label">Quantity:</label>
+            <select class="select2-select" id="payment-method" name="payment-method">
+                <option value="Venmo">Venmo</option>
+                <option value="Cash">Cash</option>
+                <option value="Check">Check</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+    </form>
+{% endblock %}
+{% block button %}
+    <button id="addNewTransaction" type="button" class="btn btn-primary">Add Transaction</button>
+{% endblock %}
