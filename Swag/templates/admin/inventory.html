@@ -2,17 +2,13 @@
 
 {% block body %}
     <div class="container">
-
         <div class="row">
-
             <div class="col-lg-6">
-                <div class="card text-xs-center mt-3 mb-3">
+                <div class="card mt-3 mb-3">
                     <div class="card-header">
-                        <h4>
-                            <span>Receipts</span>
-                        </h4>
+                        <h4>Swag Management</h4>
                     </div>
-                    <table id="receipts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="swag_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     </table>
                 </div>
             </div>
@@ -20,14 +16,20 @@
             <div class="col-lg-6">
                 <div class="card mt-3 mb-3">
                     <div class="card-header">
-                        <h4>Purchase Methods</h4>
+                        <h4>Item Management</h4>
                     </div>
-                    <canvas id="purchaseMethods" width="400" height="400"></canvas>
+                    <table id="items_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
+{% endblock %}
+
+{% block includes %}
+    {% include "admin/include/modals/swagEdit.html" %}
+    {% include "admin/include/modals/itemEdit.html" %}
+    {% include "admin/include/modals/itemStock.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -39,9 +41,6 @@
     <script type="text/javascript" charset="utf8"
             src="//cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
 
-    <script type="text/javascript"
-            src="{{ url_for('static', filename='vendor/chart.js/Chart.bundle.min.js') }}"></script>
-
     <script src="{{ url_for('static', filename='js/table_functions.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/history.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin/inventory.js') }}"></script>
 {% endblock %}

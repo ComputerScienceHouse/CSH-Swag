@@ -9,8 +9,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mr-auto">
                 {% if auth_dict["is_financial"] %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
+                    <li class="nav-item navbar-user dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="admin01">
+                            <i class="fa fa-chart-pie"></i>
+                            Admin
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="admin01">
+                            <a class="dropdown-item" href="/admin/inventory">Inventory</a>
+                            <a class="dropdown-item" href="/admin/transactions">Transactions</a>
+                        </div>
                     </li>
                 {% endif %}
             </ul>

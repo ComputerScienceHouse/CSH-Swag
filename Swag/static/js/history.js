@@ -6,7 +6,7 @@ $(document).ready(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false,
-        "pageLength": 8,
+        "pageLength": 10,
         "order": [[0, 'desc']],
         "ajax": {
             url: "/receipts",

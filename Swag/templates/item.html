@@ -1,123 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'extend/layout.html' %}
 
-{% include "include/head.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <h3 class="my-4">Current Stock</h3>
+                <div class="list-group">
+                    {% for size in stock %}
+                        {% if size.size != None %}
+                            <b class="list-group-item">{{ size.size.name }}: &nbsp;
+                                <span class="badge badge-primary">{{ size.stock }}</span>
+                            </b>
+                        {% endif %}
+                    {% endfor %}
+                </div>
 
-<body>
-
-{% include "include/nav.html" %}
-
-<!-- Page Content -->
-<div class="container">
-
-    <div class="row">
-
-        <div class="col-lg-3">
-            <h3 class="my-4">Current Stock</h3>
-            <div class="list-group">
-                {% for size in stock %}
-                    {% if size.size != None %}
-                        <b class="list-group-item">{{ size.size.name }}: &nbsp;
-                            <span class="badge badge-primary">{{ size.stock }}</span>
+                {% if receipts|length != 0 %}
+                    <h3 class="my-4">Purchase History</h3>
+                {% endif %}
+                {% for purchase in receipts %}
+                    {% if purchase != None %}
+                        <b class="list-group-item">{{ purchase.datetime.strftime('%Y-%m-%d') }}: &nbsp;
+                            <span class="badge badge-primary">{{ purchase.purchased.size.name }}</span>
                         </b>
                     {% endif %}
                 {% endfor %}
             </div>
 
-            {% if receipts|length != 0 %}
-                <h3 class="my-4">Purchase History</h3>
-            {% endif %}
-            {% for purchase in receipts %}
-                {% if purchase != None %}
-                    <b class="list-group-item">{{ purchase.datetime.strftime('%Y-%m-%d') }}: &nbsp;
-                        <span class="badge badge-primary">{{ purchase.purchased.size.name }}</span>
-                    </b>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <!-- /.col-lg-3 -->
+            <div class="col-lg-9">
 
-        <div class="col-lg-9">
+                <div class="card mt-4">
+                    <img class="card-img-top img-fluid swag"
+                         src="
 
-            <div class="card mt-4">
-                <img class="card-img-top img-fluid swag"
-                     src="{% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/900x400{% endif %}"
-                     alt="">
-                <div class="card-body">
-                    <h3 class="card-title">{{ item.product.name }}&nbsp;
-                        <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
-                    </h3>
-                    <h4>
-                        {% if item.product.price > 0 %}
-                            ${{ item.product.price }}
+                                 {% if item.image != None %}{{ item.image }}{% else %}http://placehold.it/900x400{% endif %}"
+                         alt="">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ item.product.name }}&nbsp;
+                            <span class="badge badge-{{ item.color|lower }}">{{ item.color }}</span>
+                        </h3>
+                        <h4>
+                            {% if item.product.price > 0 %}
+                                ${{ item.product.price }}
+                            {% else %}
+                                <span class="badge badge-success">Free</span>
+                            {% endif %}
+                            {% if item.stock == 0 %}
+                                <span class="badge badge-danger">Sold Out</span>
+                            {% endif %}
+                        </h4>
+
+                        <p class="card-text">{{ item.product.description }}</p>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+
+                <div class="card card-outline-secondary my-4">
+                    <div class="card-header">
+                        Product Reviews
+                    </div>
+                    <div class="card-body">
+                        {% for review in reviews %}
+                            <p>{{ review.review_text }}</p>
+                            <small><b>&bigstar;&nbsp;{{ review.review_score }}/5&nbsp;</b></small>
+                            <small class="text-muted">Posted by {{ review.member_uid }}
+                                on {{ review.datetime }} </small>
+                            <hr>
+                        {% endfor %}
+                        {% if current_review == None %}
+                            <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview"
+                                    class="btn btn-primary">
+                                Leave a Review
+                            </button>
                         {% else %}
-                            <span class="badge badge-success">Free</span>
+                            <button {% if receipts|length == 0 %}disabled{% endif %} id="editReview"
+                                    class="btn btn-primary">
+                                Edit Review
+                            </button>
                         {% endif %}
-                        {% if item.stock == 0 %}
-                            <span class="badge badge-danger">Sold Out</span>
-                        {% endif %}
-                    </h4>
+                    </div>
+                </div>
 
-                    <p class="card-text">{{ item.product.description }}</p>
-                </div>
-                <div class="card-footer">
-                </div>
-            </div>
-            <!-- /.card -->
-
-            <div class="card card-outline-secondary my-4">
-                <div class="card-header">
-                    Product Reviews
-                </div>
-                <div class="card-body">
-                    {% for review in reviews %}
-                        <p>{{ review.review_text }}</p>
-                        <small><b>&bigstar;&nbsp;{{ review.review_score }}/5&nbsp;</b></small>
-                        <small class="text-muted">Posted by {{ review.member_uid }} on {{ review.datetime }} </small>
-                        <hr>
-                    {% endfor %}
-                    {% if current_review == None %}
-                        <button {% if receipts|length == 0 %}disabled{% endif %} id="leaveReview"
-                                class="btn btn-primary">
-                            Leave a Review
-                        </button>
-                    {% else %}
-                        <button {% if receipts|length == 0 %}disabled{% endif %} id="editReview"
-                                class="btn btn-primary">
-                            Edit Review
-                        </button>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="card card-outline-secondary my-3">
-                <div class="card-body">
-                    <div class="plug-body">
-                        <a href="https://plug.csh.rit.edu" title="Advertisements by CSH: Plug">
-                            <img style="width: 100%" src="https://plug.csh.rit.edu/data"
-                                 alt="Advertisements by CSH: Plug">
-                        </a>
+                <div class="card card-outline-secondary my-3">
+                    <div class="card-body">
+                        <div class="plug-body">
+                            <a href="https://plug.csh.rit.edu" title="Advertisements by CSH: Plug">
+                                <img style="width: 100%" src="https://plug.csh.rit.edu/data"
+                                     alt="Advertisements by CSH: Plug">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- /.col-lg-9 -->
-
     </div>
+{% endblock %}
 
-</div>
-<!-- /.container -->
+{% block includes %}
+    {% include "include/modals/review/new.html" %}
+    {% include "include/modals/review/edit.html" %}
+{% endblock %}
 
-{% include "include/footer.html" %}
+{% block scripts %}
+    {{ super() }}
 
-{% include "include/modals/review/new.html" %}
-{% include "include/modals/review/edit.html" %}
-
-{% include "include/scripts.html" %}
-
-<script type="text/javascript" src="/static/js/review.js"></script>
-
-</body>
-
-</html>
+    <script src="{{ url_for('static', filename='js/review.js') }}"></script>
+{% endblock %}

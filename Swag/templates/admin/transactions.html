@@ -2,14 +2,15 @@
 
 {% block body %}
     <div class="container">
-
         <div class="row">
-
             <div class="col-lg-6">
                 <div class="card text-xs-center mt-3 mb-3">
                     <div class="card-header">
                         <h4>
                             <span>Receipts</span>
+                            <button id="createTransaction" class="btn btn-sm btn-flat btn-success float-right">
+                                New Transaction
+                            </button>
                         </h4>
                     </div>
                     <table id="receipts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -20,14 +21,26 @@
             <div class="col-lg-6">
                 <div class="card mt-3 mb-3">
                     <div class="card-header">
+                        <h4>Venmo Balance</h4>
+                    </div>
+                    <div class="card-body">
+                        <h3>${{ venmo }}</h3>
+                    </div>
+                </div>
+                <div class="card mt-3 mb-3">
+                    <div class="card-header">
                         <h4>Purchase Methods</h4>
                     </div>
                     <canvas id="purchaseMethods" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>
-
     </div>
+{% endblock %}
+
+{% block includes %}
+    {% include "admin/include/modals/updateReceipt.html" %}
+    {% include "admin/include/modals/newTransaction.html" %}
 {% endblock %}
 
 {% block scripts %}
@@ -42,6 +55,15 @@
     <script type="text/javascript"
             src="{{ url_for('static', filename='vendor/chart.js/Chart.bundle.min.js') }}"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('.select2-select').select2({
+                width: '98%',
+                theme: "bootstrap"
+            });
+        });
+    </script>
+
     <script src="{{ url_for('static', filename='js/table_functions.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/history.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin/transactions.js') }}"></script>
 {% endblock %}

@@ -62,14 +62,6 @@ def _logout():
     return redirect("/", 302)
 
 
-@app.route('/category/<category_name>', methods=['GET'])
-@auth.oidc_auth
-@user_auth
-def _category(category_name, auth_dict=None):
-    items = Item.query.all()
-    return render_template("category.html", auth_dict=auth_dict, category_name=category_name, items=items)
-
-
 @app.route('/item/<item_id>', methods=['GET'])
 @auth.oidc_auth
 @user_auth
@@ -95,19 +87,27 @@ def _history(auth_dict=None):
     return render_template("history.html", auth_dict=auth_dict)
 
 
-@app.route("/admin", methods=["GET"])
+@app.route("/admin/inventory", methods=["GET"])
 @auth.oidc_auth
 @financial_auth
-def _financial(auth_dict=None):
+def _inventory(auth_dict=None):
+    if auth_dict["is_financial"]:
+        db.create_all()
+        return render_template("admin/inventory.html", auth_dict=auth_dict)
+    return 403
+
+
+@app.route("/admin/transactions", methods=["GET"])
+@auth.oidc_auth
+@financial_auth
+def _transactions(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
         venmo = 0
-        all_stock = Stock.query.all()
         active_members = get_current_students()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("admin/dashboard.html", auth_dict=auth_dict, venmo=venmo, active_members=active_members,
-                               all_stock=all_stock)
+        return render_template("admin/transactions.html", auth_dict=auth_dict, venmo=venmo, active_members=active_members)
     return 403
 
 
