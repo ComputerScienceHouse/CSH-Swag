@@ -201,11 +201,11 @@ $(document).ready(function () {
     $('#receipts_table tbody').on('click', 'button', function () {
         var data = receipts_table.row($(this).parents('tr')).data();
 
-        $('#receipt-id').val(data.receipt_id);
-        $('#transaction-item-id').val(data.purchased.stock_id);
-        $('#receipt-member').val(data.member_uid);
-        $('#item-quantity').val(data.quantity);
-        $('#payment-method').val(data.method);
+        $('#update-receipt-id').val(data.receipt_id);
+        $('#update-transaction-item-id').val(data.purchased.stock_id).trigger('change');
+        $('#update-receipt-member').val(data.member_uid).trigger('change');
+        $('#update-item-quantity').val(data.quantity);
+        $('#update-payment-method').val(data.method).trigger('change');
 
         $('#editReceipt').modal('toggle');
     });
