@@ -107,7 +107,8 @@ def _transactions(auth_dict=None):
         active_members = get_current_students()
         for i in Receipt.query.filter_by(method="Venmo"):
             venmo += i.purchased.item.product.price * i.quantity
-        return render_template("admin/transactions.html", auth_dict=auth_dict, venmo=venmo, active_members=active_members)
+        return render_template("admin/transactions.html", auth_dict=auth_dict, venmo=venmo,
+                               active_members=active_members)
     return 403
 
 
