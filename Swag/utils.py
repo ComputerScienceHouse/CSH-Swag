@@ -6,6 +6,8 @@ from functools import wraps
 
 from flask import session
 
+from Swag import Receipt
+from Swag.models import CashFlow
 from .ldap import ldap_is_financial
 
 
@@ -47,3 +49,23 @@ def financial_auth(func):
         return None
 
     return wrapped_function
+
+
+def current_balances():
+    receipts = Receipt.query.all()
+    cash_flow = CashFlow.query.all()
+    balances = {
+        "Cash": 0,
+        "Venmo": 0,
+        "Check": 0
+    }
+    for receipt in receipts:
+        balances[receipt.method.name] += receipt.purchased.item.product.price * receipt.quantity
+
+    for flow in cash_flow:
+        if flow.account_from:
+            balances[flow.account_from.name] -= flow.amount
+        if flow.account_to:
+            balances[flow.account_to.name] += flow.amount
+
+    return balances

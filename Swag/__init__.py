@@ -31,7 +31,7 @@ migrate = flask_migrate.Migrate(app, db)
 # pylint: disable=wrong-import-position
 from .models import Swag, Item, Stock, Receipt, Review
 from .ldap import get_current_students
-from .utils import user_auth, financial_auth
+from .utils import user_auth, financial_auth, current_balances
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -103,12 +103,11 @@ def _inventory(auth_dict=None):
 def _transactions(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
-        venmo = 0
         active_members = get_current_students()
-        for i in Receipt.query.filter_by(method="Venmo"):
-            venmo += i.purchased.item.product.price * i.quantity
-        return render_template("admin/transactions.html", auth_dict=auth_dict, venmo=venmo,
-                               active_members=active_members)
+        balances = current_balances()
+        all_stock = Stock.query.all()
+        return render_template("admin/transactions.html", auth_dict=auth_dict, balances=balances,
+                               active_members=active_members, all_stock=all_stock)
     return 403
 
 
