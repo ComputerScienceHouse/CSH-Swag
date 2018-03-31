@@ -1,5 +1,4 @@
-import random
-import string
+import secrets
 from os import environ as env
 
 # Flask config
@@ -12,8 +11,7 @@ SERVER_NAME = env.get('SWAG_SERVER_NAME', 'swag.csh.rit.edu')
 SQLALCHEMY_DATABASE_URI = env.get('SQLALCHEMY_DATABASE_URI', '')
 
 # Openshift secret
-SECRET_KEY = env.get("SECRET_KEY", default=''.join(
-    random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(64)))
+SECRET_KEY = env.get("SECRET_KEY", default=''.join(secrets.token_hex(16)))
 
 # OpenID Connect SSO config
 OIDC_ISSUER = env.get('SWAG_OIDC_ISSUER', 'https://sso.csh.rit.edu/auth/realms/csh')
