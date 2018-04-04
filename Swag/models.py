@@ -165,6 +165,7 @@ class CashFlow(db.Model):
     __tablename__ = "cashflow"
     flow_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     datetime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    reason = db.Column(db.VARCHAR(150), nullable=True)
     financial_uid = db.Column(db.VARCHAR(75), nullable=False)
     account_to = db.Column(db.Enum(PaymentMethod), nullable=True)
     account_from = db.Column(db.Enum(PaymentMethod), nullable=True)
