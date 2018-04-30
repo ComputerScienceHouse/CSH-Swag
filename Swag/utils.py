@@ -8,7 +8,7 @@ from flask import session
 
 from Swag import Receipt
 from Swag.models import CashFlow
-from .ldap import ldap_is_financial
+from .ldap import ldap_is_financial, ldap_is_rtp
 
 
 def user_auth(func):
@@ -17,11 +17,13 @@ def user_auth(func):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
         is_financial = ldap_is_financial(uid)
+        is_rtp = ldap_is_rtp(uid)
 
         auth_dict = {
             "uuid": uuid,
             "uid": uid,
-            "is_financial": is_financial
+            "is_financial": is_financial,
+            "is_rtp": is_rtp
         }
         kwargs["auth_dict"] = auth_dict
 
@@ -30,21 +32,23 @@ def user_auth(func):
     return wrapped_function
 
 
-def financial_auth(func):
+def authorized_auth(func):
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
         is_financial = ldap_is_financial(uid)
+        is_rtp = ldap_is_rtp(uid)
 
         auth_dict = {
             "uuid": uuid,
             "uid": uid,
-            "is_financial": is_financial
+            "is_financial": is_financial,
+            "is_rtp": is_rtp
         }
         kwargs["auth_dict"] = auth_dict
 
-        if is_financial:
+        if is_financial or is_rtp:
             return func(*args, **kwargs)
         return None
 

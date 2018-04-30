@@ -31,7 +31,7 @@ migrate = flask_migrate.Migrate(app, db)
 # pylint: disable=wrong-import-position
 from .models import Swag, Item, Stock, Receipt, Review
 from .ldap import get_current_students
-from .utils import user_auth, financial_auth, current_balances
+from .utils import user_auth, authorized_auth, current_balances
 
 # Disable SSL certificate verification warning
 requests.packages.urllib3.disable_warnings()
@@ -89,7 +89,7 @@ def _history(auth_dict=None):
 
 @app.route("/admin/inventory", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _inventory(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
@@ -99,7 +99,7 @@ def _inventory(auth_dict=None):
 
 @app.route("/admin/transactions", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _transactions(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
@@ -113,7 +113,7 @@ def _transactions(auth_dict=None):
 
 @app.route("/swag", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _swag(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Swag.query.all()])
@@ -122,7 +122,7 @@ def _swag(auth_dict=None):
 
 @app.route("/items", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _items(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Item.query.all()])
@@ -131,7 +131,7 @@ def _items(auth_dict=None):
 
 @app.route("/stock/<item_id>", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _stock(item_id, auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
@@ -147,7 +147,7 @@ def _receipts(auth_dict=None):
 
 @app.route("/receipts/all", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _receipts_all(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
@@ -171,7 +171,7 @@ def _methods(auth_dict=None):
 
 @app.route("/methods/all", methods=["GET"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _methods_all(auth_dict=None):
     if auth_dict["is_financial"]:
         total = {

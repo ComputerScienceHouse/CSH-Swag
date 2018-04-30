@@ -1,12 +1,12 @@
 from flask import request, jsonify
 
-from Swag import app, auth, financial_auth, Swag, db
+from Swag import app, auth, authorized_auth, Swag, db
 from Swag.models import Receipt, Stock, Item
 
 
 @app.route("/update/swag", methods=["POST"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _update_swag(auth_dict=None):
     if auth_dict["is_financial"]:
         data = request.form
@@ -22,7 +22,7 @@ def _update_swag(auth_dict=None):
 
 @app.route("/update/item", methods=["POST"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _update_item(auth_dict=None):
     if auth_dict["is_financial"]:
         data = request.form
@@ -37,7 +37,7 @@ def _update_item(auth_dict=None):
 
 @app.route("/update/stock", methods=["POST"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _update_stock(auth_dict=None):
     if auth_dict["is_financial"]:
         data = request.form
@@ -52,7 +52,7 @@ def _update_stock(auth_dict=None):
 
 @app.route("/update/receipt", methods=["POST"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _update_receipt(auth_dict=None):
     if auth_dict["is_financial"]:
         data = request.form

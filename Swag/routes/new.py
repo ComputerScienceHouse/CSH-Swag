@@ -1,12 +1,12 @@
 from flask import request, jsonify
 
-from Swag import app, auth, financial_auth, db, user_auth
+from Swag import app, auth, authorized_auth, db, user_auth
 from Swag.models import Receipt, Stock, Review
 
 
 @app.route("/new/transaction", methods=["PUT"])
 @auth.oidc_auth
-@financial_auth
+@authorized_auth
 def _new_transaction(auth_dict=None):
     if auth_dict["is_financial"]:
         data = request.form

@@ -8,9 +8,11 @@
                     <div class="card-header">
                         <h4>
                             <span>Receipts</span>
-                            <button id="createTransaction" class="btn btn-sm btn-flat btn-success float-right">
-                                New Transaction
-                            </button>
+                            {% if auth_dict["is_financial"] %}
+                                <button id="createTransaction" class="btn btn-sm btn-flat btn-success float-right">
+                                    New Transaction
+                                </button>
+                            {% endif %}
                         </h4>
                     </div>
                     <table id="receipts_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -24,9 +26,11 @@
                         <h4>Balances</h4>
                     </div>
                     <div class="card-body">
-                        <h2>Venmo</h2>
-                        <h3>${{ balances.Venmo }}</h3>
-                        <br>
+                        {% if auth_dict["is_financial"] %}
+                            <h2>Venmo</h2>
+                            <h3>${{ balances.Venmo }}</h3>
+                            <br>
+                        {% endif %}
                         <h2>Cash</h2>
                         <h3>${{ balances.Cash }}</h3>
                     </div>
