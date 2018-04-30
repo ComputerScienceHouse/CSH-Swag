@@ -97,10 +97,10 @@ def _inventory(auth_dict=None):
     return 403
 
 
-@app.route("/admin/inventory", methods=["GET"])
+@app.route("/admin/cashflow", methods=["GET"])
 @auth.oidc_auth
 @authorized_auth
-def _inventory(auth_dict=None):
+def _cashflow(auth_dict=None):
     if auth_dict["is_authorized"]:
         db.create_all()
         return render_template("admin/cashflow.html", auth_dict=auth_dict)
