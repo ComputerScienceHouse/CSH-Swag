@@ -170,3 +170,16 @@ class CashFlow(db.Model):
     account_to = db.Column(db.Enum(PaymentMethod), nullable=True)
     account_from = db.Column(db.Enum(PaymentMethod), nullable=True)
     amount = db.Column(db.DECIMAL(25, 2), nullable=False)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'flow_id': self.receipt_id,
+            'datetime': self.datetime.strftime('%m/%d/%Y'),
+            'reason': self.reason.serialize,
+            'financial_uid': self.financial_uid,
+            'account_to': self.account_to.name,
+            'account_from': self.account_from.name,
+            'amount': self.amount,
+        }

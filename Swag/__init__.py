@@ -29,8 +29,8 @@ migrate = flask_migrate.Migrate(app, db)
 
 # Import db and ldap models after instantiating db object
 # pylint: disable=wrong-import-position
-from .models import Swag, Item, Stock, Receipt, Review
-from .ldap import get_current_students
+from .models import Swag, Item, Stock, Receipt, Review, CashFlow
+from .ldap import get_all_members
 from .utils import user_auth, authorized_auth, current_balances
 
 # Disable SSL certificate verification warning
@@ -97,17 +97,27 @@ def _inventory(auth_dict=None):
     return 403
 
 
+@app.route("/admin/inventory", methods=["GET"])
+@auth.oidc_auth
+@authorized_auth
+def _inventory(auth_dict=None):
+    if auth_dict["is_financial"]:
+        db.create_all()
+        return render_template("admin/cashflow.html", auth_dict=auth_dict)
+    return 403
+
+
 @app.route("/admin/transactions", methods=["GET"])
 @auth.oidc_auth
 @authorized_auth
 def _transactions(auth_dict=None):
     if auth_dict["is_financial"]:
         db.create_all()
-        active_members = get_current_students()
+        all_members = get_all_members()
         balances = current_balances()
         all_stock = Stock.query.all()
         return render_template("admin/transactions.html", auth_dict=auth_dict, balances=balances,
-                               active_members=active_members, all_stock=all_stock)
+                               active_members=all_members, all_stock=all_stock)
     return 403
 
 
@@ -151,6 +161,15 @@ def _receipts(auth_dict=None):
 def _receipts_all(auth_dict=None):
     if auth_dict["is_financial"]:
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
+    return 403
+
+
+@app.route("/cashflow/all", methods=["GET"])
+@auth.oidc_auth
+@authorized_auth
+def _cashflow_all(auth_dict=None):
+    if auth_dict["is_financial"]:
+        return jsonify(data=[i.serialize for i in CashFlow.query.all()])
     return 403
 
 

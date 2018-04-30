@@ -3,6 +3,14 @@ from functools import lru_cache
 from Swag import _ldap
 
 
+def _ldap_is_member_of_group(member, group):
+    group_list = member.get("memberOf")
+    for group_dn in group_list:
+        if group == group_dn.split(",")[0][3:]:
+            return True
+    return False
+
+
 @lru_cache(maxsize=1024)
 def ldap_is_financial(uid):
     financial = _ldap.get_directorship_heads("financial")
@@ -11,7 +19,7 @@ def ldap_is_financial(uid):
 
 @lru_cache(maxsize=1024)
 def ldap_is_rtp(uid):
-    return _ldap.ldap_is_member_of_group(_ldap.get_member(uid, uid=True), 'rtp')
+    return _ldap_is_member_of_group(_ldap.get_member(uid, uid=True), 'rtp')
 
 
 @lru_cache(maxsize=1024)

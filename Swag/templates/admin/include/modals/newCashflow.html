@@ -1,0 +1,38 @@
+{% extends 'extend/modal.html' %}
+{% block id %}newCashFlow{% endblock %}
+{% block idLabel %}newCashFlowLabel{% endblock %}
+{% block form %}
+    <form>
+        <div class="form-group">
+            <label for="cashflow-value" class="col-form-label">Value:</label>
+            <input type="number" class="form-control" id="cashflow-value">
+        </div>
+        <div class="form-group">
+            <label for="cashflow-reason" class="col-form-label">Reason:</label>
+            <input type="text" class="form-control" id="cashflow-reason">
+        </div>
+        <div class="form-group">
+            <label for="account-to" class="col-form-label">Account to:</label>
+            <select class="select2-select" id="account-to" name="account-to">
+                <option value="Venmo">Venmo</option>
+                <option value="Cash">Cash</option>
+                <option value="Check">Check</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="account-from" class="col-form-label">Account from:</label>
+            <select class="select2-select" id="account-from" name="account-from">
+                <option value="Venmo">Venmo</option>
+                <option value="Cash">Cash</option>
+                <option value="Check">Check</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Card">Card</option>
+            </select>
+        </div>
+    </form>
+{% endblock %}
+{% block button %}
+    <button id="addNewCashFlow" type="button" class="btn btn-primary">Add CashFlow</button>
+{% endblock %}
