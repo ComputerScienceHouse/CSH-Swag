@@ -8,7 +8,7 @@ from flask import session
 
 from Swag import Receipt
 from Swag.models import CashFlow
-from .ldap import ldap_is_financial, ldap_is_rtp
+from .ldap import ldap_is_financial, ldap_get_member, ldap_get_groups
 
 
 def user_auth(func):
@@ -17,7 +17,7 @@ def user_auth(func):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
         is_financial = ldap_is_financial(uid)
-        is_rtp = ldap_is_rtp(uid)
+        is_rtp = "rtp" in ldap_get_groups(ldap_get_member(uid))
 
         auth_dict = {
             "uuid": uuid,
@@ -38,7 +38,7 @@ def authorized_auth(func):
         uuid = str(session["userinfo"].get("sub", ""))
         uid = str(session["userinfo"].get("preferred_username", ""))
         is_financial = ldap_is_financial(uid)
-        is_rtp = ldap_is_rtp(uid)
+        is_rtp = "rtp" in ldap_get_groups(ldap_get_member(uid))
 
         auth_dict = {
             "uuid": uuid,
