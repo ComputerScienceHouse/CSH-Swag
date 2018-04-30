@@ -91,7 +91,7 @@ def _history(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _inventory(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         db.create_all()
         return render_template("admin/inventory.html", auth_dict=auth_dict)
     return 403
@@ -101,7 +101,7 @@ def _inventory(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _inventory(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         db.create_all()
         return render_template("admin/cashflow.html", auth_dict=auth_dict)
     return 403
@@ -111,7 +111,7 @@ def _inventory(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _transactions(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         db.create_all()
         all_members = get_all_members()
         balances = current_balances()
@@ -125,7 +125,7 @@ def _transactions(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _swag(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         return jsonify(data=[i.serialize for i in Swag.query.all()])
     return 403
 
@@ -134,7 +134,7 @@ def _swag(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _items(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         return jsonify(data=[i.serialize for i in Item.query.all()])
     return 403
 
@@ -143,7 +143,7 @@ def _items(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _stock(item_id, auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         return jsonify(data=[i.serialize for i in Stock.query.filter_by(item_id=item_id)])
     return 403
 
@@ -159,7 +159,7 @@ def _receipts(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _receipts_all(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         return jsonify(data=[i.serialize for i in Receipt.query.all()])
     return 403
 
@@ -168,7 +168,7 @@ def _receipts_all(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _cashflow_all(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         return jsonify(data=[i.serialize for i in CashFlow.query.all()])
     return 403
 
@@ -192,7 +192,7 @@ def _methods(auth_dict=None):
 @auth.oidc_auth
 @authorized_auth
 def _methods_all(auth_dict=None):
-    if auth_dict["is_financial"]:
+    if auth_dict["is_authorized"]:
         total = {
             "Cash": 0,
             "Venmo": 0,

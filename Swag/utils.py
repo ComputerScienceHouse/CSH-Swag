@@ -44,7 +44,8 @@ def authorized_auth(func):
             "uuid": uuid,
             "uid": uid,
             "is_financial": is_financial,
-            "is_rtp": is_rtp
+            "is_rtp": is_rtp,
+            "is_authorized": is_financial or is_rtp,
         }
         kwargs["auth_dict"] = auth_dict
 
