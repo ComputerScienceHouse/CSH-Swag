@@ -5,7 +5,7 @@ from Swag.models import Receipt, Stock, Item
 
 
 @app.route("/update/swag", methods=["POST"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _update_swag(auth_dict=None):
     if auth_dict["is_financial"]:
@@ -21,7 +21,7 @@ def _update_swag(auth_dict=None):
 
 
 @app.route("/update/item", methods=["POST"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _update_item(auth_dict=None):
     if auth_dict["is_financial"]:
@@ -36,7 +36,7 @@ def _update_item(auth_dict=None):
 
 
 @app.route("/update/stock", methods=["POST"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _update_stock(auth_dict=None):
     if auth_dict["is_financial"]:
@@ -51,7 +51,7 @@ def _update_stock(auth_dict=None):
 
 
 @app.route("/update/receipt", methods=["POST"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _update_receipt(auth_dict=None):
     if auth_dict["is_financial"]:

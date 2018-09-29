@@ -5,6 +5,7 @@ import requests
 from csh_ldap import CSHLDAP
 from flask import Flask, render_template, jsonify, redirect, send_from_directory
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
+from flask_pyoidc.provider_configuration import ProviderConfiguration, ClientMetadata
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -16,8 +17,11 @@ if os.path.exists(os.path.join(os.getcwd(), "config.py")):
 else:
     app.config.from_pyfile(os.path.join(os.getcwd(), "config.env.py"))
 
-auth = OIDCAuthentication(app, issuer=app.config["OIDC_ISSUER"],
-                          client_registration_info=app.config["OIDC_CLIENT_CONFIG"])
+APP_CONFIG = ProviderConfiguration(issuer=app.config["OIDC_ISSUER"],
+                          client_metadata=ClientMetadata(app.config["OIDC_CLIENT_CONFIG"]['client_id'],
+                                                            app.config["OIDC_CLIENT_CONFIG"]['client_secret']))
+
+auth = OIDCAuthentication({'app': APP_CONFIG}, app)
 
 # Create CSHLDAP connection
 _ldap = CSHLDAP(app.config["LDAP_BIND_DN"],
@@ -47,7 +51,7 @@ def _favicon():
 
 
 @app.route("/", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _home(auth_dict=None):
     db.create_all()
@@ -63,7 +67,7 @@ def _logout():
 
 
 @app.route('/item/<item_id>', methods=['GET'])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _item(item_id, auth_dict=None):
     item = Item.query.get(item_id)
@@ -81,14 +85,14 @@ def _item(item_id, auth_dict=None):
 
 
 @app.route('/history', methods=['GET'])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _history(auth_dict=None):
     return render_template("history.html", auth_dict=auth_dict)
 
 
 @app.route("/admin/inventory", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _inventory(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -98,7 +102,7 @@ def _inventory(auth_dict=None):
 
 
 @app.route("/admin/cashflow", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _cashflow(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -108,7 +112,7 @@ def _cashflow(auth_dict=None):
 
 
 @app.route("/admin/transactions", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _transactions(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -122,7 +126,7 @@ def _transactions(auth_dict=None):
 
 
 @app.route("/swag", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _swag(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -131,7 +135,7 @@ def _swag(auth_dict=None):
 
 
 @app.route("/items", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _items(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -140,7 +144,7 @@ def _items(auth_dict=None):
 
 
 @app.route("/stock/<item_id>", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _stock(item_id, auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -149,14 +153,14 @@ def _stock(item_id, auth_dict=None):
 
 
 @app.route("/receipts", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _receipts(auth_dict=None):
     return jsonify(data=[i.serialize for i in Receipt.query.filter_by(member_uid=auth_dict['uid']).all()])
 
 
 @app.route("/receipts/all", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _receipts_all(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -165,7 +169,7 @@ def _receipts_all(auth_dict=None):
 
 
 @app.route("/cashflow/all", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _cashflow_all(auth_dict=None):
     if auth_dict["is_authorized"]:
@@ -174,7 +178,7 @@ def _cashflow_all(auth_dict=None):
 
 
 @app.route("/methods", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _methods(auth_dict=None):
     total = {
@@ -189,7 +193,7 @@ def _methods(auth_dict=None):
 
 
 @app.route("/methods/all", methods=["GET"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _methods_all(auth_dict=None):
     if auth_dict["is_authorized"]:
