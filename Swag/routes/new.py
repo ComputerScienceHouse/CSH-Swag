@@ -5,7 +5,7 @@ from Swag.models import Receipt, Stock, Review
 
 
 @app.route("/new/transaction", methods=["PUT"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @authorized_auth
 def _new_transaction(auth_dict=None):
     if auth_dict["is_financial"]:
@@ -21,7 +21,7 @@ def _new_transaction(auth_dict=None):
 
 
 @app.route("/new/review", methods=["PUT"])
-@auth.oidc_auth
+@auth.oidc_auth('app')
 @user_auth
 def _new_review(auth_dict=None):
     data = request.form
