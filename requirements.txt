@@ -1,6 +1,6 @@
 sqlalchemy
 requests
-csh_ldap==2.0.2
+csh_ldap==2.2.0
 flask
 flask_sqlalchemy
 flask_migrate
