@@ -33,6 +33,11 @@ npm install -g gulp
 yarn install
 ```
 
+#### If running locally on Fedora...
+```
+dnf install python-devel openldap-devel
+```
+
 ## Credits
 
 Credit to [ComputerScienceHouse/conditional](https://github.com/ComputerScienceHouse/conditional) the pylint and gulp reference
