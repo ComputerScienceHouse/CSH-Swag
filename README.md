@@ -38,6 +38,11 @@ yarn install
 dnf install python-devel openldap-devel
 ```
 
+#### If running locally on Ubuntu...
+```
+sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev
+```
+
 ## Credits
 
 Credit to [ComputerScienceHouse/conditional](https://github.com/ComputerScienceHouse/conditional) the pylint and gulp reference
