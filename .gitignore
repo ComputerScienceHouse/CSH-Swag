@@ -5,7 +5,6 @@ Swag/static/vendor
 Swag/static/css
 .idea/
 Swag/__pycache__/
-Swag/__pycache__/*
 Swag/static/android-chrome-192x192.png
 Swag/static/android-chrome-512x512.png
 Swag/static/apple-touch-icon.png
@@ -20,7 +19,5 @@ Swag/static/mstile-310x310.png
 Swag/static/mstile-70x70.png
 Swag/static/safari-pinned-tab.svg
 Swag/static/site.webmanifest
-Swag/routes/__pycache__/
-Swag/routes/__pycache__/*
 faviconData.json
 yarn.lock
